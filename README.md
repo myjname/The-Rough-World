@@ -17,3 +17,7 @@ The Rough World - это игра, которая имеет имя и авто�
 ## TODO
 
 https://github.com/myjname/The-rough-world/projects/1
+
+## Concept book
+
+https://docs.google.com/document/d/1_6E15X6t-D5SIuScV98LME9Zeped6MBkPpPKgBExdF8/edit?usp=sharing
