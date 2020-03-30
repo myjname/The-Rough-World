@@ -6,7 +6,12 @@ using UnityEngine.SceneManagement;
 public class CameraUI : MonoBehaviour
 {
     public GameObject Panel;
-    private bool activated = false;
+    private bool activated;
+
+    private void Start()
+    {
+        activated = false;
+    }
 
     private void Update()
     {
@@ -21,15 +26,16 @@ public class CameraUI : MonoBehaviour
     {
         if (activated)
         {
-            Panel.gameObject.SetActive(false);
+            Panel.gameObject.SetActive(false);//закрыть меню на esc
+            Time.timeScale = 1;
             activated = false;
         }
         else
         {
-            Panel.gameObject.SetActive(true);
+            Panel.gameObject.SetActive(true);//активация меню на esc
+            Time.timeScale = 0;
             activated = true;
         }
-
     }
 
     //Выход из игры
@@ -41,6 +47,8 @@ public class CameraUI : MonoBehaviour
     //Смена сцены
     public void SceneLoad(int SceneIndex)
     {
+        Time.timeScale = 1;
+
         SceneManager.LoadScene(SceneIndex);
     }
 

@@ -166,4 +166,6 @@ public class MapGen : MonoBehaviour {
             throw new ArgumentException (message: "Wrong direction value, shoud be Vector3.left/right/forward/back", nameof (direction));
     }
 
+
+
 }
