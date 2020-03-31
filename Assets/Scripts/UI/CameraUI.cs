@@ -51,6 +51,4 @@ public class CameraUI : MonoBehaviour
 
         SceneManager.LoadScene(SceneIndex);
     }
-
-
 }
