@@ -8,7 +8,7 @@ public class VoxelTile : MonoBehaviour {
     public int TileSizexz = 64; //размер сторон меша по ширине
     public int TileSizey = 6; //размер высоты меша
 
-    [Range (1, 10000)] public int Weight = 50;
+    [Range (0, 10000)] public int Weight = 50;
 
     public RotationType Rotation;
 

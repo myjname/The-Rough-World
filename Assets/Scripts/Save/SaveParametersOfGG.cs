@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using System.IO;
+using UnityEngine.SceneManagement;
 
 public class SaveParametersOfGG : MonoBehaviour
 {
@@ -16,16 +17,13 @@ public class SaveParametersOfGG : MonoBehaviour
 
     private void Start()
     {
-        Directory.CreateDirectory(Application.dataPath + "/Saves/" + nameOfSave);//создаём папку с где будет сейв
+        Directory.CreateDirectory(Application.dataPath + "/Saves/" + nameOfSave);//создаём папку где будет сейв
 
         wayToFile = Path.Combine(Application.dataPath, "Saves/" + nameOfSave + "/SaveParametrsOfGG.json");//путь к файлу сохранения
 
         if (File.Exists(wayToFile))//если файл существует
         {
-            parametrs = JsonUtility.FromJson<SaveParametrs>(File.ReadAllText(wayToFile));//присваеваем классу сохранённые данные из файла
-
-            PersGG.transform.position = parametrs.CharacterCoordinates;//присваеваем объекту его координаты
-            PersGG.transform.eulerAngles = parametrs.CharacterRotation;
+            SetParametrs();
         }
         else
         {
@@ -33,11 +31,22 @@ public class SaveParametersOfGG : MonoBehaviour
         }
     }
 
-    public void SaveButton()//сохраняем координаты персонажа
+    public void SetParametrs()//задаём параметры при запуске
+    {
+        parametrs = JsonUtility.FromJson<SaveParametrs>(File.ReadAllText(wayToFile));//присваеваем классу сохранённые данные из файла
+
+        PersGG.transform.position = parametrs.CharacterCoordinates;//присваеваем объекту его координаты
+        PersGG.transform.eulerAngles = parametrs.CharacterRotation;//вращение
+    }
+
+    public void SaveButton()//сохраняем параметры персонажа
     {
         parametrs.CharacterCoordinates = PersGG.transform.position;
         parametrs.CharacterRotation = PersGG.transform.eulerAngles;
-        File.WriteAllText(wayToFile, JsonUtility.ToJson(parametrs));
+
+        parametrs.SceneIndex = SceneManager.GetActiveScene().buildIndex;
+
+        File.WriteAllText(wayToFile, JsonUtility.ToJson(parametrs));//записываем всё в файл
     }
 
     private void OnApplicationQuit()//сохранение файла при выходе
@@ -51,4 +60,6 @@ public class SaveParametrs//класс с сохранёнными данным�
 {
     public Vector3 CharacterCoordinates;
     public Vector3 CharacterRotation;
+
+    public int SceneIndex;
 }

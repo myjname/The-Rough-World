@@ -17,17 +17,21 @@ public class MapGen : MonoBehaviour {
 
     public GameObject Player;
 
-    private void Start () {
+    private void Start ()
+    {
         spawnedTiles = new VoxelTile[MapSize.x, MapSize.y]; //задаём размеры массиву заспавненых тайлов
 
-        foreach (VoxelTile tilePrefab in TilePrefabs) {
+        foreach (VoxelTile tilePrefab in TilePrefabs)
+        {
             tilePrefab.CalculateSidesColor ();
         }
 
         int countBeforeAdding = TilePrefabs.Count;
-        for (int i = 0; i < countBeforeAdding; i++) {
+        for (int i = 0; i < countBeforeAdding; i++)
+        {
             VoxelTile clone;
-            switch (TilePrefabs[i].Rotation) {
+            switch (TilePrefabs[i].Rotation)
+            {
                 case VoxelTile.RotationType.OnlyRotation:
                     break;
 
@@ -75,11 +79,14 @@ public class MapGen : MonoBehaviour {
 
     }
 
-    private void Update () {
-        if (Input.GetKeyDown (KeyCode.G)) {
+    private void Update ()
+    {
+        if (Input.GetKeyDown (KeyCode.G))
+        {
             StopAllCoroutines ();
 
-            foreach (VoxelTile spawnedTile in spawnedTiles) {
+            foreach (VoxelTile spawnedTile in spawnedTiles)
+            {
                 if (spawnedTile != null) Destroy (spawnedTile.gameObject);
             }
 
@@ -92,9 +99,12 @@ public class MapGen : MonoBehaviour {
 
     //Функция генерации карты
     //public IEnumerator Generate()
-    public void Generate () {
-        for (int x = 1; x < MapSize.x - 1; x++) {
-            for (int y = 1; y < MapSize.y - 1; y++) {
+    public void Generate ()
+    {
+        for (int x = 1; x < MapSize.x - 1; x++)
+        {
+            for (int y = 1; y < MapSize.y - 1; y++)
+            {
                 //yield return new WaitForSeconds(0.001f);
 
                 PlaseTail (x, y);
@@ -103,10 +113,12 @@ public class MapGen : MonoBehaviour {
     }
 
     //Функция установки тайлов
-    private void PlaseTail (int x, int y) {
+    private void PlaseTail (int x, int y)
+    {
         List<VoxelTile> availableTiles = new List<VoxelTile> (); //список тайлов которые мы можем поставить
 
-        foreach (VoxelTile tilePrefab in TilePrefabs) {
+        foreach (VoxelTile tilePrefab in TilePrefabs)
+        {
 
             if (CanAppendTile (existingTile: spawnedTiles[x - 1, y], tileToAppend : tilePrefab, Vector3.left) &&
                 CanAppendTile (existingTile: spawnedTiles[x + 1, y], tileToAppend : tilePrefab, Vector3.right) &&
@@ -123,10 +135,12 @@ public class MapGen : MonoBehaviour {
         localseed += (localseed + localseed) * 7 / 3;
     }
 
-    private VoxelTile GetRandomTile (List<VoxelTile> availableTiles) {
+    private VoxelTile GetRandomTile (List<VoxelTile> availableTiles)
+    {
         List<float> chances = new List<float> ();
 
-        for (int i = 0; i < availableTiles.Count; i++) {
+        for (int i = 0; i < availableTiles.Count; i++)
+        {
             chances.Add (availableTiles[i].Weight);
         }
 
@@ -134,7 +148,8 @@ public class MapGen : MonoBehaviour {
         float value = Random.Range (0, chances.Sum ());
         float sum = 0;
 
-        for (int i = 0; i < chances.Count; i++) {
+        for (int i = 0; i < chances.Count; i++)
+        {
             sum += chances[i];
             if (value < sum) {
                 return availableTiles[i];
@@ -147,7 +162,8 @@ public class MapGen : MonoBehaviour {
     }
 
     //Функция, проверяющая можем ли мы поставить тайл
-    private bool CanAppendTile (VoxelTile existingTile, VoxelTile tileToAppend, Vector3 direction) {
+    private bool CanAppendTile (VoxelTile existingTile, VoxelTile tileToAppend, Vector3 direction)
+    {
         if (existingTile == null) return true;
 
         if (direction == Vector3.right)
