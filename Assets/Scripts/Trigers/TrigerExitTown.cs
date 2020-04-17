@@ -20,7 +20,6 @@ public class TrigerExitTown : MonoBehaviour
     {
         if (colider.tag == "Player")
         {
-            Debug.Log("Вы хотите выйти?");
             Time.timeScale = 0;
             dialog.gameObject.SetActive(true);
         }
@@ -45,6 +44,13 @@ public class TrigerExitTown : MonoBehaviour
         parametrs.SceneIndex = sceneIndex;
 
         File.WriteAllText(wayToFile, JsonUtility.ToJson(parametrs));//записываем всё в файл
+
+        wayToFile = Path.Combine(Application.dataPath, "Saves/" + nameOfSave + "/SaveMapSeed.json");
+
+        if (File.Exists(wayToFile))
+        {
+            File.Delete(wayToFile);
+        }
 
         SceneManager.LoadScene(sceneIndex);
     }

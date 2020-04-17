@@ -7,9 +7,6 @@ using UnityEngine.SceneManagement;
 
 public class SaveParametersOfGG : MonoBehaviour
 {
-    //public GameObject Camera;
-    public GameObject PersGG;
-
     private SaveParametrs parametrs = new SaveParametrs();
 
     private string wayToFile;
@@ -17,8 +14,6 @@ public class SaveParametersOfGG : MonoBehaviour
 
     private void Start()
     {
-        Directory.CreateDirectory(Application.dataPath + "/Saves/" + nameOfSave);//создаём папку где будет сейв
-
         wayToFile = Path.Combine(Application.dataPath, "Saves/" + nameOfSave + "/SaveParametrsOfGG.json");//путь к файлу сохранения
 
         if (File.Exists(wayToFile))//если файл существует
@@ -27,6 +22,7 @@ public class SaveParametersOfGG : MonoBehaviour
         }
         else
         {
+            Directory.CreateDirectory(Application.dataPath + "/Saves/" + nameOfSave);//создаём папку где будет сейв
             SaveButton();
         }
     }
@@ -35,14 +31,14 @@ public class SaveParametersOfGG : MonoBehaviour
     {
         parametrs = JsonUtility.FromJson<SaveParametrs>(File.ReadAllText(wayToFile));//присваеваем классу сохранённые данные из файла
 
-        PersGG.transform.position = parametrs.CharacterCoordinates;//присваеваем объекту его координаты
-        PersGG.transform.eulerAngles = parametrs.CharacterRotation;//вращение
+        transform.position = parametrs.CharacterCoordinates;//присваеваем объекту его координаты
+        transform.eulerAngles = parametrs.CharacterRotation;//вращение
     }
 
     public void SaveButton()//сохраняем параметры персонажа
     {
-        parametrs.CharacterCoordinates = PersGG.transform.position;
-        parametrs.CharacterRotation = PersGG.transform.eulerAngles;
+        parametrs.CharacterCoordinates = transform.position;
+        parametrs.CharacterRotation = transform.eulerAngles;
 
         parametrs.SceneIndex = SceneManager.GetActiveScene().buildIndex;
 
@@ -55,11 +51,3 @@ public class SaveParametersOfGG : MonoBehaviour
     }
 }
 
-[Serializable]
-public class SaveParametrs//класс с сохранёнными данными
-{
-    public Vector3 CharacterCoordinates;
-    public Vector3 CharacterRotation;
-
-    public int SceneIndex;
-}

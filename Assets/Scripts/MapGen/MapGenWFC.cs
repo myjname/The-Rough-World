@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -19,10 +19,32 @@ public class MapGenWFC : MonoBehaviour
     private Queue<Vector2Int> recalcPossibleTilesQueue = new Queue<Vector2Int>();
     private List<VoxelTile>[,] possibleTiles;
 
-    //public GameObject Player;
+    private int seed = 2; //сид мира
+    private int localseed; //локальный сид
+
+    private SaveMapSeed mapSeed = new SaveMapSeed();
+
+    private string wayToFile;
+    public string nameOfSave = "MySave01";
 
     private void Start()
     {
+        wayToFile = Path.Combine(Application.dataPath, "Saves/" + nameOfSave + "/SaveMapSeed.json");//путь к файлу сохранения
+
+        if (File.Exists(wayToFile))
+        {
+            mapSeed = JsonUtility.FromJson<SaveMapSeed>(File.ReadAllText(wayToFile));
+            seed = mapSeed.Seed;
+        }
+        else
+        {
+            seed = Random.Range(1, 2000);
+
+            mapSeed.Seed = seed;
+            File.WriteAllText(wayToFile, JsonUtility.ToJson(mapSeed));//записываем всё в файл
+        }
+        localseed = seed;
+
         spawnedTiles = new VoxelTile[MapSize.x, MapSize.y]; //задаём размеры массиву заспавненых тайлов
 
         foreach (VoxelTile tilePrefab in TilePrefabs)
@@ -73,13 +95,7 @@ public class MapGenWFC : MonoBehaviour
                     throw new ArgumentOutOfRangeException();
             }
         }
-
-        //localseed = seed;
-
-        //StartCoroutine(routine: Generate());
         Generate();
-
-        //Player.transform.position = new Vector3(transform.position.x + (MapSize.x / 2 + 1) * 6.4f, 4, transform.position.y + (MapSize.y - 2) * 6.4f);
     }
 
     private void Update()
@@ -130,7 +146,6 @@ public class MapGenWFC : MonoBehaviour
         for (int i = 1; i < MapSize.y - 1; i++)
         {
             possibleTiles[MapSize.x / 2 + 1, i] = new List<VoxelTile> { tileFirst1 };
-            //if (i == MapSize.x / 2 + 2) possibleTiles[MapSize.x / 2 + 1, i] = new List<VoxelTile> { tileFirst2 };
         }
     }
 
@@ -260,6 +275,8 @@ public class MapGenWFC : MonoBehaviour
 
     private VoxelTile GetRandomTile(List<VoxelTile> availableTiles)
     {
+        Random.InitState(localseed);
+
         List<float> chances = new List<float>();
 
         for (int i = 0; i < availableTiles.Count; i++)
@@ -275,13 +292,15 @@ public class MapGenWFC : MonoBehaviour
             sum += chances[i];
             if (value < sum)
             {
+                localseed = (localseed + localseed) * 7 / 5;
+
                 return availableTiles[i];
             }
 
         }
+        localseed = (localseed + localseed) * 7 / 5;
 
         return availableTiles[availableTiles.Count - 1];
-
     }
     
     //Функция, проверяющая можем ли мы поставить тайл

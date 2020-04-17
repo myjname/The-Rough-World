@@ -5249,6 +5249,7 @@ MonoBehaviour:
   - {fileID: 105264959}
   - {fileID: 1264111915}
   - {fileID: 883178620}
+  nameOfSave: MySave01
 --- !u!1001 &1378149283
 PrefabInstance:
   m_ObjectHideFlags: 0
