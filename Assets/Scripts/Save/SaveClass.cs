@@ -7,7 +7,7 @@ using UnityEngine;
 public class SaveParametrs//класс с сохранёнными данными
 {
     public Vector3 CharacterCoordinates;
-    public Vector3 CharacterRotation;
+    public Quaternion CharacterRotation;
 
     public int SceneIndex;
 }

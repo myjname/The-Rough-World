@@ -20,7 +20,7 @@ public class MainMenuScript : MonoBehaviour
     //Смена сцены
     public void SceneLoad(int SceneIndex)
     {
-        wayToFile = Path.Combine(Application.dataPath, "Saves/" + nameOfSave + "/SaveParametrsOfGG.json");//путь к файлу сохранения
+        wayToFile = Path.Combine(Application.dataPath, "Saves/" + nameOfSave + "/SaveDataPersGG.json");//путь к файлу сохранения
 
         if (File.Exists(wayToFile))//если файл существует
         {

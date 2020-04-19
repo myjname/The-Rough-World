@@ -38,7 +38,7 @@ public class TrigerExitTown : MonoBehaviour
 
         dialog.gameObject.SetActive(false);
 
-        wayToFile = Path.Combine(Application.dataPath, "Saves/" + nameOfSave + "/SaveParametrsOfGG.json");//путь к файлу сохранения
+        wayToFile = Path.Combine(Application.dataPath, "Saves/" + nameOfSave + "/SaveDataPersGG.json");//путь к файлу сохранения
 
         parametrs.CharacterCoordinates = coordinate;
         parametrs.SceneIndex = sceneIndex;

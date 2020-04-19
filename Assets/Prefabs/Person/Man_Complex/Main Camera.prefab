@@ -597,6 +597,7 @@ GameObject:
   - component: {fileID: 6501772384500803782}
   - component: {fileID: 1538990515820682354}
   - component: {fileID: 7882479508987101035}
+  - component: {fileID: 3198472442482054898}
   - component: {fileID: 7158220693526910879}
   - component: {fileID: 3541957477883702567}
   m_Layer: 0
@@ -613,7 +614,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4310021708091228201}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 10, z: -57.6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -673,6 +674,20 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4310021708091228201}
   m_Enabled: 1
+--- !u!114 &3198472442482054898
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4310021708091228201}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 984df72ce78ea7b45b75f02a3d099b09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  persGG: {fileID: 2045924541027800081, guid: 0ad1fb0b961edd84c8035195db7bc0cd, type: 3}
+  nameOfSave: MySave01
 --- !u!114 &7158220693526910879
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -685,7 +700,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee9b251246af32b4d82f0a8bb4d75c98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Player: {fileID: 0}
   speedZoom: 2
 --- !u!114 &3541957477883702567
 MonoBehaviour:
@@ -1127,8 +1141,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: SaveButton
+      - m_Target: {fileID: 3198472442482054898}
+        m_MethodName: SaveData
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
