@@ -3703,7 +3703,7 @@ PrefabInstance:
   m_SourcePrefab: {fileID: 100100000, guid: 4c9f205f06e8b4842879e5f94b874cc5, type: 3}
 --- !u!1 &811328113 stripped
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 3198472442120499422, guid: 4c9f205f06e8b4842879e5f94b874cc5,
+  m_CorrespondingSourceObject: {fileID: 6002676016031087794, guid: 4c9f205f06e8b4842879e5f94b874cc5,
     type: 3}
   m_PrefabInstance: {fileID: 811328112}
   m_PrefabAsset: {fileID: 0}
@@ -4138,12 +4138,24 @@ PrefabInstance:
         type: 3}
       propertyPath: dialog
       value: 
-      objectReference: {fileID: 811328113}
+      objectReference: {fileID: 7418117954312719057, guid: e218998cfe0f78c43b4e68c9746240dc,
+        type: 3}
     - target: {fileID: 7830491656126602028, guid: f8516528bb5bea048a84a61523dc0383,
         type: 3}
       propertyPath: sceneIndex
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7830491656126602028, guid: f8516528bb5bea048a84a61523dc0383,
+        type: 3}
+      propertyPath: font
+      value: 
+      objectReference: {fileID: 12800000, guid: da5b2b33e4d9d60489e8a65e2af5fe79,
+        type: 3}
+    - target: {fileID: 7830491656126602028, guid: f8516528bb5bea048a84a61523dc0383,
+        type: 3}
+      propertyPath: MainScreen
+      value: 
+      objectReference: {fileID: 811328113}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f8516528bb5bea048a84a61523dc0383, type: 3}
 --- !u!114 &862748134 stripped
