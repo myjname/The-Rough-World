@@ -4,16 +4,18 @@ using UnityEngine;
 
 public class CameraControl : MonoBehaviour
 {
+    public float speedZoom = 2f;
+    public float speedRotate = 0.1f;
+    public Vector3 CamCoord = new Vector3(0, 20, 0);
+
     private GameObject persGG; //игровой персонаж
     private Vector3 offset; //растояние от игрока до камеры
-
-    public float speedZoom = 2f;
 
     void Start ()
     {
         persGG = GameObject.FindGameObjectWithTag("Player");
 
-        transform.position = persGG.transform.position + new Vector3(0f, 7f, -4f); //установка камеры в правильное поожение
+        transform.position = persGG.transform.position + CamCoord; //установка камеры в правильное поожение
         offset = transform.position - persGG.transform.position; //расстояние от игрока до камеры
     }
 
@@ -21,7 +23,10 @@ public class CameraControl : MonoBehaviour
     {
         CameraMove();
 
-        CameraZoom();
+        //CameraZoom();
+
+        if (Input.GetKey(KeyCode.Q)) CameraRotate(1);
+        if (Input.GetKey(KeyCode.E)) CameraRotate(-1);
     }
 
     private void CameraMove()
@@ -30,7 +35,12 @@ public class CameraControl : MonoBehaviour
         transform.LookAt(persGG.transform);
     }
 
-    //Метод зума
+    private void CameraRotate(int direction)
+    {
+        transform.RotateAround(persGG.transform.position, Vector3.up, direction * speedRotate);
+        offset = transform.position - persGG.transform.position;
+    }
+
     private void CameraZoom ()
     {
         if (Input.GetAxis ("Mouse ScrollWheel") > 0 && offset.y >= 5f && offset.z <= -2f) //приближение

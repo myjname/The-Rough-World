@@ -30,6 +30,7 @@ public class SpawnSaveLoad : MonoBehaviour
 
             SaveData();
         }
+        FinishScript();
     }
 
     public void SaveData()
@@ -47,6 +48,11 @@ public class SpawnSaveLoad : MonoBehaviour
         data = JsonUtility.FromJson<SaveParametrs>(File.ReadAllText(wayToFile));
 
         localPersGG = Instantiate(persGG, data.CharacterCoordinates, data.CharacterRotation) as GameObject;
+    }
+
+    public void FinishScript()
+    {
+        GetComponent<CameraControl>().enabled = true;
     }
 
     private void OnApplicationQuit()
