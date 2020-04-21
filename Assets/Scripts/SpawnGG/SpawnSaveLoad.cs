@@ -12,6 +12,8 @@ public class SpawnSaveLoad : MonoBehaviour
     public string nameOfSave = "MySave01";
     private string wayToFile;
 
+    public Vector3 firstPoint = new Vector3(0, 3.3f, -57.6f);
+
     private SaveParametrs data = new SaveParametrs();
 
     void Start()
@@ -26,7 +28,7 @@ public class SpawnSaveLoad : MonoBehaviour
         {
             Directory.CreateDirectory(Application.dataPath + "/Saves/" + nameOfSave);//создаём папку где будут сейвы
 
-            localPersGG = Instantiate(persGG, new Vector3(0, 3.3f, -57.6f), Quaternion.identity) as GameObject;
+            localPersGG = Instantiate(persGG, firstPoint, Quaternion.identity) as GameObject;
 
             SaveData();
         }

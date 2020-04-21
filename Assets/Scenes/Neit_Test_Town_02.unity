@@ -17,7 +17,7 @@ RenderSettings:
   m_Fog: 0
   m_FogColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   m_FogMode: 3
-  m_FogDensity: 0.01
+  m_FogDensity: 0
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
   m_AmbientSkyColor: {r: 0.212, g: 0.227, b: 0.259, a: 1}
@@ -33,11 +33,11 @@ RenderSettings:
   m_HaloTexture: {fileID: 0}
   m_SpotCookie: {fileID: 10001, guid: 0000000000000000e000000000000000, type: 0}
   m_DefaultReflectionMode: 0
-  m_DefaultReflectionResolution: 128
+  m_DefaultReflectionResolution: 64
   m_ReflectionBounces: 1
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
-  m_Sun: {fileID: 0}
+  m_Sun: {fileID: 1499147102}
   m_IndirectSpecularColor: {r: 0.44202295, g: 0.49099934, b: 0.5709307, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
@@ -64,7 +64,8 @@ LightmapSettings:
     m_CompAOExponentDirect: 0
     m_ExtractAmbientOcclusion: 0
     m_Padding: 2
-    m_LightmapParameters: {fileID: 0}
+    m_LightmapParameters: {fileID: 15200, guid: 0000000000000000f000000000000000,
+      type: 0}
     m_LightmapsBakeMode: 1
     m_TextureCompression: 1
     m_FinalGather: 0
@@ -40899,6 +40900,12 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7522794376946110789, guid: b8e87a693ef75f64fbf3bbaea98dbc25,
     type: 3}
   m_PrefabInstance: {fileID: 1499064874}
+  m_PrefabAsset: {fileID: 0}
+--- !u!108 &1499147102 stripped
+Light:
+  m_CorrespondingSourceObject: {fileID: 2004755268698632934, guid: c295a70bb08d9834daa338551e06e743,
+    type: 3}
+  m_PrefabInstance: {fileID: 7852033039974481508}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1501303300
 GameObject:
