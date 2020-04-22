@@ -61395,6 +61395,29 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4c9f205f06e8b4842879e5f94b874cc5, type: 3}
+--- !u!1 &3198472442482054897 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4310021708091228201, guid: 4c9f205f06e8b4842879e5f94b874cc5,
+    type: 3}
+  m_PrefabInstance: {fileID: 3198472442482054896}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &3198472442482054898
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3198472442482054897}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38dd9b8d0729bca49b35528d3a6e661d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  InventoryUI: {fileID: 0}
+  SlotPrefab: {fileID: 0}
+  InventorySize: 10
+  ChosenItem: 0
+  StackSize: 10
 --- !u!1001 &3845636149050298864
 PrefabInstance:
   m_ObjectHideFlags: 0

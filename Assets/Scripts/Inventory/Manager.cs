@@ -4,21 +4,22 @@ using UnityEngine;
 
 public class Manager
 {
-    [HideInInspector]
-    public List<Item> IDB = new List<Item>(); //ItemsDataBase
+    private List<Item> IDB = new List<Item>(); //ItemsDataBase
 
-    public int StackSize = 10;
+    //public int StackSize = 10;
 
-    public void LoadDataBase()
+    public List<Item> LoadDataBase() // содержит и загружет базу предметов
     {
         CreateHealItem("Bandage", true, 1000, 10);
 
         CreateFoodItem("Apple", true, 2000, 20, 5);
 
         CreateWeaponItem("Stick", false, 5000, 10, 3);
+
+        return IDB;
     }
 
-    public void CreateHealItem(string title, bool canStack, int id, int healPower)// id 1000-1999
+    private void CreateHealItem(string title, bool canStack, int id, int healPower)// id 1000-1999
     {
         HealItem item = new HealItem { Title = title, CanStack = canStack, Id = id, HealPower = healPower };
 
@@ -31,7 +32,7 @@ public class Manager
         IDB.Add(item);
     }
 
-    public void CreateFoodItem(string title, bool canStack, int id, int foodPower, int waterPower)// id 2000-2999
+    private void CreateFoodItem(string title, bool canStack, int id, int foodPower, int waterPower)// id 2000-2999
     {
         FoodItem item = new FoodItem { Title = title, CanStack = canStack, Id = id, FoodPower = foodPower, WaterPower = waterPower };
 
@@ -44,7 +45,7 @@ public class Manager
         IDB.Add(item);
     }
 
-    public void CreateQuestItem(string title, bool canStack, int id)// id 3000-3999
+    private void CreateQuestItem(string title, bool canStack, int id)// id 3000-3999
     {
         QuestItem item = new QuestItem { Title = title, CanStack = canStack, Id = id };
 
@@ -57,7 +58,7 @@ public class Manager
         IDB.Add(item);
     }
 
-    public void CreateToolItem(string title, bool canStack, int id, int maxDurability, ResourceType resourceType)// id 4000-4999
+    private void CreateToolItem(string title, bool canStack, int id, int maxDurability, ResourceType resourceType)// id 4000-4999
     {
         ToolItem item = new ToolItem { Title = title, CanStack = canStack, Id = id, MaxDurability = maxDurability, ResourceType = resourceType };
 
@@ -70,7 +71,7 @@ public class Manager
         IDB.Add(item);
     }
 
-    public void CreateWeaponItem(string title, bool canStack, int id, int maxDurability, int damage)// id 5000-5999
+    private void CreateWeaponItem(string title, bool canStack, int id, int maxDurability, int damage)// id 5000-5999
     {
         WeaponItem item = new WeaponItem { Title = title, CanStack = canStack, Id = id, MaxDurability = maxDurability, Damage = damage };
 
@@ -83,7 +84,7 @@ public class Manager
         IDB.Add(item);
     }
 
-    public void CreateClothingItem(string title, bool canStack, int id, int maxDurability, int armor)// id 6000-6999
+    private void CreateClothingItem(string title, bool canStack, int id, int maxDurability, int armor)// id 6000-6999
     {
         ClothingItem item = new ClothingItem { Title = title, CanStack = canStack, Id = id, MaxDurability = maxDurability, Armor = armor };
 
@@ -96,7 +97,7 @@ public class Manager
         IDB.Add(item);
     }
 
-    public void CreateResourceItem(string title, bool canStack, int id, ResourceType resourceType)// id 7000-7999
+    private void CreateResourceItem(string title, bool canStack, int id, ResourceType resourceType)// id 7000-7999
     {
         ResourceItem item = new ResourceItem { Title = title, CanStack = canStack, Id = id, ResourceType = resourceType };
 

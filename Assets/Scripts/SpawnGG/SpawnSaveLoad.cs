@@ -16,7 +16,7 @@ public class SpawnSaveLoad : MonoBehaviour
 
     private SaveParametrs data = new SaveParametrs();
 
-    void Start()
+    private void Start()
     {
         wayToFile = Path.Combine(Application.dataPath, "Saves/" + nameOfSave + "/SaveDataPersGG.json");
 
