@@ -5,13 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class CameraUI : MonoBehaviour
 {
-    public GameObject Panel;
-    private bool activated;
-
-    private void Start()
-    {
-        activated = false;
-    }
+    public GameObject EscMenu;
+    private bool activated = false;
 
     private void Update()
     {
@@ -26,13 +21,13 @@ public class CameraUI : MonoBehaviour
     {
         if (activated)
         {
-            Panel.gameObject.SetActive(false);//закрыть меню на esc
+            EscMenu.gameObject.SetActive(false);//закрыть меню на esc
             Time.timeScale = 1;
             activated = false;
         }
         else
         {
-            Panel.gameObject.SetActive(true);//активация меню на esc
+            EscMenu.gameObject.SetActive(true);//активация меню на esc
             Time.timeScale = 0;
             activated = true;
         }

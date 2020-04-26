@@ -5,7 +5,7 @@ using UnityEngine;
 public class Item
 {
     public string Title { get; set; }
-    public bool CanStack { get; set; }
+    public int StackSize { get; set; }
     public int Id { get; set; }
     public Sprite Icon { get; set; }
     public GameObject WorldObj { get; set; }
@@ -51,7 +51,6 @@ public class ToolItem : Item
     public ToolItem()
     {
         ItemType = ItemType.Tool;
-        CanStack = false;
     }
 }
 
@@ -63,7 +62,6 @@ public class WeaponItem : Item
     public WeaponItem()
     {
         ItemType = ItemType.Weapon;
-        CanStack = false;
     }
 }
 
@@ -75,7 +73,6 @@ public class ClothingItem : Item
     public ClothingItem()
     {
         ItemType = ItemType.Clothing;
-        CanStack = false;
     }
 }
 
