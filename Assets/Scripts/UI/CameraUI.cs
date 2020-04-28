@@ -8,9 +8,21 @@ public class CameraUI : MonoBehaviour
     public GameObject EscMenu;
     private bool activated = false;
 
+    private Inventory MainInventory;
+    private Inventory ToolBet;
+
+    private void Start()
+    {
+        GameObject UI = GameObject.Find("Main Camera");
+        EscMenu = UI.transform.Find("MainScreen/EscMenu").gameObject;
+
+        MainInventory = GetComponents<Inventory>()[0];
+        ToolBet = GetComponents<Inventory>()[1];
+    }
+
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) && MainInventory.IsDragging == false)
         {
             ActivateEscMenu();
         }

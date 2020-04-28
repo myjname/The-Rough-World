@@ -26,8 +26,8 @@ public class Inventory : MonoBehaviour
 
     private Vector3 offset = new Vector3(50, 50);
 
-    private bool IsDragging = false;
-    private bool IsMenuActive = false;
+    public bool IsDragging = false;
+    public bool IsMenuActive = false;
 
     private void Start()
     {
@@ -179,7 +179,7 @@ public class Inventory : MonoBehaviour
         if (IsDragging)
         {
             DragImg.transform.position = Input.mousePosition + offset;
-            if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.Mouse1)) StopDrag();
+            if ((Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.Mouse1)) && IsDragging == true) StopDrag();
         }
     }
     public void StartDrag()
