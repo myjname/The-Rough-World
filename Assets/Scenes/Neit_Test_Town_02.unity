@@ -57803,6 +57803,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d652bdd8ab10c34e87821baf2835b60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dialog: {fileID: 0}
 --- !u!1001 &2063171774
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -61336,6 +61337,16 @@ PrefabInstance:
     - target: {fileID: 533934298, guid: 4c9f205f06e8b4842879e5f94b874cc5, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: -139.74023
+      objectReference: {fileID: 0}
+    - target: {fileID: 350000777345801737, guid: 4c9f205f06e8b4842879e5f94b874cc5,
+        type: 3}
+      propertyPath: m_AdditionalShaderChannelsFlag
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 3198472442011721435, guid: 4c9f205f06e8b4842879e5f94b874cc5,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4310021708091228201, guid: 4c9f205f06e8b4842879e5f94b874cc5,
         type: 3}

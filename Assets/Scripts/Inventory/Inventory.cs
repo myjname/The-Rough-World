@@ -306,16 +306,3 @@ public class Inventory : MonoBehaviour
         //}
     }
 }
-
-public class Slot
-{
-    public Item Item { get; set; }
-    public int Count { get; set; }
-}
-
-public enum InventoryType
-{
-    MainInventory,
-    ToolBet,
-    Chest
-}

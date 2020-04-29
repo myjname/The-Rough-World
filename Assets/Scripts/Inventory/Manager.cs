@@ -6,8 +6,6 @@ public class Manager
 {
     private List<Item> IDB = new List<Item>(); //ItemsDataBase
 
-    //public int StackSize = 10;
-
     public List<Item> LoadDataBase() // содержит и загружет базу предметов
     {
         CreateHealItem("Bandage", 10, 1000, 10);
@@ -111,4 +109,15 @@ public class Manager
     }
 }
 
+public class Slot
+{
+    public Item Item { get; set; }
+    public int Count { get; set; }
+}
 
+public enum InventoryType
+{
+    MainInventory,
+    ToolBet,
+    Chest
+}
