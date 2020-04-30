@@ -17,9 +17,15 @@ public class Inventory : MonoBehaviour
 
     private Manager manager = new Manager();
 
+    private GameObject UI;
     private GameObject MainInventoryUI;
     private GameObject SlotPrefab;
     private GameObject DragImg;
+
+    private GameObject InfoOfItemUI;
+    private GameObject localInfoOfItemUI;
+
+    private GameObject persGG;
 
     public EventSystem eSys;
     public InventoryType InvType;
@@ -29,14 +35,20 @@ public class Inventory : MonoBehaviour
     public bool IsDragging = false;
     public bool IsMenuActive = false;
 
+    private bool serch = true;
+
     private void Start()
     {
+        UI = GameObject.Find("Main Camera");
+
         InitUI();
         InitInventory();
 
         iDB = manager.LoadDataBase();
+        
         inventoryUI = new GameObject[InventorySize];
         SlotPrefab = Resources.Load<GameObject>("UI/SlotPrefab");
+        InfoOfItemUI = Resources.Load<GameObject>("UI/InfoOfItem");
 
         LoadInventory();
 
@@ -50,12 +62,17 @@ public class Inventory : MonoBehaviour
         Dragging();
 
         ActiveInventory();
+
+        while (serch)
+        {
+            persGG = GameObject.FindGameObjectWithTag("Player");
+            serch = false;
+        }
     }
 
     #region Init
     private void InitUI()
     {
-        GameObject UI = GameObject.Find("Main Camera");
         DragImg = UI.transform.Find("MainScreen/DragImage").gameObject;
         switch (InvType)
         {
@@ -154,7 +171,12 @@ public class Inventory : MonoBehaviour
         {
             ChosenItem = int.Parse(eSys.currentSelectedGameObject.name);
 
-            if (inventory[ChosenItem].Item != null) StartDrag();
+            if (inventory[ChosenItem].Item != null)
+            {
+                StartDrag();
+
+                SpawnInfoOfItem();
+            }
             else ChosenItem = -1;
         }
         else
@@ -171,6 +193,7 @@ public class Inventory : MonoBehaviour
                 }
             }
             StopDrag();
+            DestroyInfoOfItem();
             UpdateInventory();
         }
     }
@@ -190,8 +213,6 @@ public class Inventory : MonoBehaviour
 
         DragImg.GetComponent<Image>().sprite = inventory[ChosenItem].Item.Icon;
         DragImg.transform.GetChild(0).GetComponent<Text>().text = inventory[ChosenItem].Count.ToString();
-
-        UpdateInventory();
     }
     public void StopDrag()
     {
@@ -253,17 +274,33 @@ public class Inventory : MonoBehaviour
             }
         }
     }
-    public void ClearAndDrop(int invСellNum)
+    public void ClearAndDrop(int invSlotNum)
     {
-        inventory[invСellNum].Item = null;
-        inventory[invСellNum].Count = 0;
+        DropItem(inventory[invSlotNum].Item, inventory[invSlotNum].Count);
 
-        DropItem(inventory[invСellNum].Item, inventory[invСellNum].Count);
+        inventory[invSlotNum].Item = null;
+        inventory[invSlotNum].Count = 0;
+
+        StopDrag();
+        DestroyInfoOfItem();
+        UpdateInventory();
     }
     public void DropItem(Item item, int count)
     {
-        //ToDo: написать выброс итема
         Debug.Log($"Предмет: {item.Title}, выброшен в количестве: {count}");
+
+        GameObject di = Instantiate(item.WorldObj, persGG.transform.position + new Vector3(1, 0, 0), Quaternion.identity);
+    }
+    public void SpawnInfoOfItem()
+    {
+        localInfoOfItemUI = Instantiate(InfoOfItemUI, UI.transform.Find("MainScreen"));
+        localInfoOfItemUI.transform.GetChild(0).GetComponent<Button>().onClick.AddListener(delegate { ClearAndDrop(ChosenItem); });
+        localInfoOfItemUI.transform.GetChild(1).GetComponent<Image>().sprite = inventory[ChosenItem].Item.Icon;
+
+    }
+    public void DestroyInfoOfItem()
+    {
+        Destroy(localInfoOfItemUI);
     }
     #endregion
 

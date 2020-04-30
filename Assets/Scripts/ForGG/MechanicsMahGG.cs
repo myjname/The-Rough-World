@@ -15,21 +15,25 @@ public class MechanicsMahGG : MonoBehaviour {
     private CharacterController ch_controller;
     private Animator ch_animator;
 
-    void Start () {
+    void Start ()
+    {
         //transform.position = new Vector3(0.6f, 0f, 0f);
-        ch_controller = GetComponent<CharacterController> ();
-        ch_animator = GetComponent<Animator> ();
+        ch_controller = GetComponent<CharacterController>();
+        ch_animator = GetComponent<Animator>();
     }
 
-    void Update () {
-        CharacterMove ();
-        GamingGravity ();
+    void Update ()
+    {
+        CharacterMove();
+        GamingGravity();
     }
 
     //Метод перемещения персонажа
-    private void CharacterMove () {
+    private void CharacterMove()
+    {
         //Перемещение по поверхности
-        if (ch_controller.isGrounded) {
+        if (ch_controller.isGrounded)
+        {
             moveVector = Vector3.zero;
             moveVector.x = Input.GetAxis ("Horizontal") * speedMove;
             moveVector.z = Input.GetAxis ("Vertical") * speedMove;
@@ -39,7 +43,8 @@ public class MechanicsMahGG : MonoBehaviour {
             else ch_animator.SetBool ("Move", false);
 
             //Поворот персонажа в сторону направления перемещения
-            if (Vector3.Angle (Vector3.forward, moveVector) > 1f || Vector3.Angle (Vector3.forward, moveVector) == 0) {
+            if (Vector3.Angle(Vector3.forward, moveVector) > 1 || Vector3.Angle(Vector3.forward, moveVector) == 0)
+            {
                 Vector3 direct = Vector3.RotateTowards (transform.forward, moveVector, speedMove, 0.0f);
                 transform.rotation = Quaternion.LookRotation (direct);
             }
