@@ -15,5 +15,5 @@ public class SaveParametrs//класс с сохранёнными данным�
 [Serializable]
 public class SaveMapSeed
 {
-    public int Seed; 
+    public int Seed;
 }

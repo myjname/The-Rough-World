@@ -31,6 +31,7 @@ public class TrigerExitTown : MonoBehaviour
         }
     }
 
+    //ToDo: Сделать так же но через префаб и ресурсы
     private void SpawnDialog()
     {
         localDialog = Instantiate(dialog, MainScreen.transform);
@@ -39,7 +40,6 @@ public class TrigerExitTown : MonoBehaviour
 
         CreateButtonNo();
     }
-
     private void CreateButtonYes()
     {
         GameObject buttonYes = new GameObject("ButtonYes", typeof(Image), typeof(Button), typeof(LayoutElement));
@@ -59,7 +59,6 @@ public class TrigerExitTown : MonoBehaviour
         textRT.sizeDelta = new Vector2(0, 0);
         textRT.anchoredPosition = new Vector2(0, 0);
     }
-
     private void CreateButtonNo()
     {
         GameObject buttonYes = new GameObject("ButtonNo", typeof(Image), typeof(Button), typeof(LayoutElement));
@@ -86,7 +85,6 @@ public class TrigerExitTown : MonoBehaviour
 
         Destroy(localDialog);
     }
-
     public void DialogYes()
     {
         Time.timeScale = 1;

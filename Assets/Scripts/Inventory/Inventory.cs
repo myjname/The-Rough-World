@@ -6,7 +6,8 @@ using UnityEngine.UI;
 
 public class Inventory : MonoBehaviour
 {
-    private Slot[] inventory;
+    #region Variables
+    public Slot[] inventory;
     private List<Item> iDB;
     private GameObject[] inventoryUI;
 
@@ -14,8 +15,6 @@ public class Inventory : MonoBehaviour
     public int InventorySize = 0;
     [HideInInspector]
     public int ChosenItem = -1;
-
-    private Manager manager = new Manager();
 
     private GameObject UI;
     private GameObject MainInventoryUI;
@@ -29,13 +28,17 @@ public class Inventory : MonoBehaviour
 
     public EventSystem eSys;
     public InventoryType InvType;
+    private Manager manager = new Manager();
+    private CameraUI CUI;
 
     private Vector3 offset = new Vector3(50, 50);
 
     public bool IsDragging = false;
     public bool IsMenuActive = false;
+    public bool IsClicked = false;
 
     private bool serch = true;
+    #endregion
 
     private void Start()
     {
@@ -45,7 +48,9 @@ public class Inventory : MonoBehaviour
         InitInventory();
 
         iDB = manager.LoadDataBase();
-        
+
+        CUI = GetComponents<CameraUI>()[0];
+
         inventoryUI = new GameObject[InventorySize];
         SlotPrefab = Resources.Load<GameObject>("UI/SlotPrefab");
         InfoOfItemUI = Resources.Load<GameObject>("UI/InfoOfItem");
@@ -66,6 +71,7 @@ public class Inventory : MonoBehaviour
         while (serch)
         {
             persGG = GameObject.FindGameObjectWithTag("Player");
+
             serch = false;
         }
     }
@@ -139,10 +145,17 @@ public class Inventory : MonoBehaviour
     {
         if (sameItem)
         {
-            count -= (stackSize - inventory[i].Count);
-            inventory[i].Count = stackSize;
-
-            return count;
+            if (inventory[i].Count + count > stackSize)
+            {
+                count = count + inventory[i].Count - stackSize;
+                inventory[i].Count = stackSize;
+                return count;
+            }
+            else
+            {
+                inventory[i].Count += count;
+                return 0;
+            }
         }
         else
         {
@@ -167,34 +180,43 @@ public class Inventory : MonoBehaviour
     #region UpdateInventoryUI
     public void ClickedSlot()
     {
-        if (IsDragging == false)
+        if (!CUI.DragInOtherInventory(InvType))
         {
-            ChosenItem = int.Parse(eSys.currentSelectedGameObject.name);
-
-            if (inventory[ChosenItem].Item != null)
+            if (IsDragging == false)
             {
-                StartDrag();
+                ChosenItem = int.Parse(eSys.currentSelectedGameObject.name);
+                
+                if (inventory[ChosenItem].Item != null)
+                {
+                    StartDrag();
 
-                SpawnInfoOfItem();
+                    SpawnInfoOfItem();
+                }
+                else ChosenItem = -1;
             }
-            else ChosenItem = -1;
+            else
+            {
+                if (ChosenItem != int.Parse(eSys.currentSelectedGameObject.name)) // если мы нажиимем не в ту же клетку
+                {
+                    if (inventory[ChosenItem].Item != inventory[int.Parse(eSys.currentSelectedGameObject.name)].Item) // если выбраный предмет не такой же, как тот на который мы кликаем
+                    {
+                        SwapItem(ChosenItem, int.Parse(eSys.currentSelectedGameObject.name));
+                    }
+                    else
+                    {
+                        StackItem(ChosenItem, int.Parse(eSys.currentSelectedGameObject.name));
+                    }
+                }
+                StopDrag();
+                DestroyInfoOfItem();
+                UpdateInventory();
+            }
         }
         else
         {
-            if (ChosenItem != int.Parse(eSys.currentSelectedGameObject.name)) // если мы нажиимем не в ту же клетку
-            {
-                if (inventory[ChosenItem].Item != inventory[int.Parse(eSys.currentSelectedGameObject.name)].Item) // если выбраный предмет не такой же, как тот на который мы кликаем
-                {
-                    SwapItem(ChosenItem, int.Parse(eSys.currentSelectedGameObject.name));
-                }
-                else
-                {
-                    StackItem(ChosenItem, int.Parse(eSys.currentSelectedGameObject.name));
-                }
-            }
-            StopDrag();
-            DestroyInfoOfItem();
-            UpdateInventory();
+            //Debug.Log("переместить ");
+
+            CUI.SwapItemsOtherInventorys();
         }
     }
     public void Dragging()
@@ -210,7 +232,7 @@ public class Inventory : MonoBehaviour
         IsDragging = true;
 
         ChosenItem = int.Parse(eSys.currentSelectedGameObject.name);
-
+        
         DragImg.GetComponent<Image>().sprite = inventory[ChosenItem].Item.Icon;
         DragImg.transform.GetChild(0).GetComponent<Text>().text = inventory[ChosenItem].Count.ToString();
     }
@@ -222,7 +244,7 @@ public class Inventory : MonoBehaviour
 
         IsDragging = false;
     }
-    private void UpdateInventory()
+    public void UpdateInventory()
     {
         for (int i = 0; i < inventory.Length; i++)
         {
@@ -287,16 +309,26 @@ public class Inventory : MonoBehaviour
     }
     public void DropItem(Item item, int count)
     {
-        Debug.Log($"Предмет: {item.Title}, выброшен в количестве: {count}");
+        //Debug.Log($"Предмет: {item.Title}, выброшен в количестве: {count}");
 
-        GameObject di = Instantiate(item.WorldObj, persGG.transform.position + new Vector3(1, 0, 0), Quaternion.identity);
+        GameObject dropItem = Instantiate(item.WorldObj, persGG.transform.position + new Vector3(1, 0, 0), Quaternion.identity);
+        dropItem.tag = "Item";
+
+        PickUp pickUp = dropItem.AddComponent<PickUp>();
+        pickUp.id = item.Id;
+        pickUp.count = count;
+
+        BoxCollider boxCollider = dropItem.AddComponent<BoxCollider>();
+        boxCollider.center = new Vector3(0, 0.5f, 0);
+        boxCollider.size = new Vector3(1, 1, 1);
+        boxCollider.isTrigger = true;
     }
     public void SpawnInfoOfItem()
     {
         localInfoOfItemUI = Instantiate(InfoOfItemUI, UI.transform.Find("MainScreen"));
         localInfoOfItemUI.transform.GetChild(0).GetComponent<Button>().onClick.AddListener(delegate { ClearAndDrop(ChosenItem); });
         localInfoOfItemUI.transform.GetChild(1).GetComponent<Image>().sprite = inventory[ChosenItem].Item.Icon;
-
+        localInfoOfItemUI.transform.GetChild(2).GetComponent<Text>().text = inventory[ChosenItem].Item.Title;
     }
     public void DestroyInfoOfItem()
     {

@@ -44,7 +44,7 @@ RenderSettings:
 LightmapSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 11
-  m_GIWorkflowMode: 0
+  m_GIWorkflowMode: 1
   m_GISettings:
     serializedVersion: 2
     m_BounceScale: 1
@@ -61334,82 +61334,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 49815909, guid: 4c9f205f06e8b4842879e5f94b874cc5, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 289204992, guid: 4c9f205f06e8b4842879e5f94b874cc5, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: -243
-      objectReference: {fileID: 0}
-    - target: {fileID: 289204992, guid: 4c9f205f06e8b4842879e5f94b874cc5, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 460
-      objectReference: {fileID: 0}
-    - target: {fileID: 289204992, guid: 4c9f205f06e8b4842879e5f94b874cc5, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -113.91
-      objectReference: {fileID: 0}
-    - target: {fileID: 289204992, guid: 4c9f205f06e8b4842879e5f94b874cc5, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 230
-      objectReference: {fileID: 0}
-    - target: {fileID: 533934298, guid: 4c9f205f06e8b4842879e5f94b874cc5, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 200
-      objectReference: {fileID: 0}
-    - target: {fileID: 533934298, guid: 4c9f205f06e8b4842879e5f94b874cc5, type: 3}
-      propertyPath: m_AnchorMin.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 533934298, guid: 4c9f205f06e8b4842879e5f94b874cc5, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 767710395, guid: 4c9f205f06e8b4842879e5f94b874cc5, type: 3}
-      propertyPath: m_Text
-      value: 'Drop
-
-'
-      objectReference: {fileID: 0}
-    - target: {fileID: 1026911213, guid: 4c9f205f06e8b4842879e5f94b874cc5, type: 3}
-      propertyPath: m_Name
-      value: DropButton
-      objectReference: {fileID: 0}
-    - target: {fileID: 1026911214, guid: 4c9f205f06e8b4842879e5f94b874cc5, type: 3}
-      propertyPath: m_AnchorMin.x
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1026911214, guid: 4c9f205f06e8b4842879e5f94b874cc5, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1026911214, guid: 4c9f205f06e8b4842879e5f94b874cc5, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1026911214, guid: 4c9f205f06e8b4842879e5f94b874cc5, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1026911214, guid: 4c9f205f06e8b4842879e5f94b874cc5, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1026911214, guid: 4c9f205f06e8b4842879e5f94b874cc5, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 40
-      objectReference: {fileID: 0}
-    - target: {fileID: 350000777345801737, guid: 4c9f205f06e8b4842879e5f94b874cc5,
-        type: 3}
-      propertyPath: m_AdditionalShaderChannelsFlag
-      value: 25
-      objectReference: {fileID: 0}
-    - target: {fileID: 3198472442011721435, guid: 4c9f205f06e8b4842879e5f94b874cc5,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4310021708091228201, guid: 4c9f205f06e8b4842879e5f94b874cc5,
         type: 3}
       propertyPath: m_Name
