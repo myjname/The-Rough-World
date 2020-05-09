@@ -8,6 +8,7 @@ using Random = UnityEngine.Random;
 
 public class MapGenWFC : MonoBehaviour
 {
+    #region Variables
     public Vector2Int MapSize = new Vector2Int(x: 10, y: 10); //размер карты
 
     public VoxelTile tileFirst1;
@@ -26,6 +27,7 @@ public class MapGenWFC : MonoBehaviour
 
     private string wayToFile;
     public string nameOfSave = "MySave01";
+    #endregion
 
     private void Start()
     {
@@ -97,19 +99,19 @@ public class MapGenWFC : MonoBehaviour
         }
         Generate();
     }
-
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.G))
-        {
-            foreach (VoxelTile spawnedTile in spawnedTiles)
-            {
-                if (spawnedTile != null) Destroy(spawnedTile.gameObject);
-            }
-            Generate();
-        }
+        //if (Input.GetKeyDown(KeyCode.G))
+        //{
+        //    foreach (VoxelTile spawnedTile in spawnedTiles)
+        //    {
+        //        if (spawnedTile != null) Destroy(spawnedTile.gameObject);
+        //    }
+        //    Generate();
+        //}
     }
 
+    #region Generate
     public void Generate()
     {
         possibleTiles = new List<VoxelTile>[MapSize.x, MapSize.y];
@@ -140,7 +142,6 @@ public class MapGenWFC : MonoBehaviour
 
         PlaseAllTiles();
     }
-
     private void GenerateFirstTiles()
     {
         for (int i = 1; i < MapSize.y - 1; i++)
@@ -148,7 +149,6 @@ public class MapGenWFC : MonoBehaviour
             possibleTiles[MapSize.x / 2 + 1, i] = new List<VoxelTile> { tileFirst1 };
         }
     }
-
     private bool GenerateAllPossibleTiles()
     {
         int backtracks = 0;
@@ -222,6 +222,49 @@ public class MapGenWFC : MonoBehaviour
         Debug.Log(message: $"Failed, run out of iterations with {backtracks} backtracks");
         return false;
     }
+    #endregion
+
+    #region PlaseTails
+    private void PlaceTail(int x, int y)
+    {
+        if (possibleTiles[x, y].Count == 0) return;
+
+        VoxelTile selectedTiles = GetRandomTile(possibleTiles[x, y]); //выбираем рандомный тайл из списка доступных
+        Vector3 position = new Vector3(x, y: 0, z: y) * selectedTiles.VoxelSize * selectedTiles.TileSizexz;//задаём координаты
+        spawnedTiles[x, y] = Instantiate(selectedTiles, position, selectedTiles.transform.rotation); //устанавливаем выбраный тайл в нужнную клетку
+    }
+    private void PlaseAllTiles()
+    {
+        for (int x = 1; x < MapSize.x - 1; x++)
+        {
+            for (int y = 1; y < MapSize.y - 1; y++)
+            {
+                PlaceTail(x, y);
+            }
+        }
+    }
+    #endregion
+
+    //Функция, проверяющая можем ли мы поставить тайл
+    private bool CanAppendTile(VoxelTile existingTile, VoxelTile tileToAppend, Vector3 direction)
+    {
+        if (existingTile == null) return true;
+
+        if (direction == Vector3.right)
+            return Enumerable.SequenceEqual(existingTile.ColorsRight, tileToAppend.ColorsLeft);
+
+        else if (direction == Vector3.left)
+            return Enumerable.SequenceEqual(existingTile.ColorsLeft, tileToAppend.ColorsRight);
+
+        else if (direction == Vector3.forward)
+            return Enumerable.SequenceEqual(existingTile.ColorsForward, tileToAppend.ColorsBack);
+
+        else if (direction == Vector3.back)
+            return Enumerable.SequenceEqual(existingTile.ColorsBack, tileToAppend.ColorsForward);
+
+        else
+            throw new ArgumentException(message: "Wrong direction value, shoud be Vector3.left/right/forward/back", nameof(direction));
+    }
 
     private bool IsTilePossible(VoxelTile tile, Vector2Int position)
     {
@@ -242,35 +285,6 @@ public class MapGenWFC : MonoBehaviour
         if (isAllBackTileImpossible) return false;
 
         return true;
-    }
-
-    private void PlaseAllTiles()
-    {
-        for (int x = 1; x < MapSize.x - 1; x++)
-        {
-            for (int y = 1; y < MapSize.y - 1; y++)
-            {
-                PlaceTail(x, y);
-            }
-        }
-    }
-
-    private void EnqueueNeigboursToRecalc(Vector2Int position)
-    {
-        recalcPossibleTilesQueue.Enqueue(new Vector2Int(x: position.x + 1, position.y));
-        recalcPossibleTilesQueue.Enqueue(new Vector2Int(x: position.x - 1, position.y));
-        recalcPossibleTilesQueue.Enqueue(new Vector2Int(position.x, y: position.y + 1));
-        recalcPossibleTilesQueue.Enqueue(new Vector2Int(position.x, y: position.y - 1));
-    }
-
-    //Функция установки тайлов
-    private void PlaceTail(int x, int y)
-    {
-        if (possibleTiles[x, y].Count == 0) return;
-
-        VoxelTile selectedTiles = GetRandomTile(possibleTiles[x , y]); //выбираем рандомный тайл из списка доступных
-        Vector3 position = new Vector3(x, y: 0, z: y) * selectedTiles.VoxelSize * selectedTiles.TileSizexz;//задаём координаты
-        spawnedTiles[x, y] = Instantiate(selectedTiles, position, selectedTiles.transform.rotation); //устанавливаем выбраный тайл в нужнную клетку
     }
 
     private VoxelTile GetRandomTile(List<VoxelTile> availableTiles)
@@ -302,25 +316,14 @@ public class MapGenWFC : MonoBehaviour
 
         return availableTiles[availableTiles.Count - 1];
     }
-    
-    //Функция, проверяющая можем ли мы поставить тайл
-    private bool CanAppendTile(VoxelTile existingTile, VoxelTile tileToAppend, Vector3 direction)
+
+    private void EnqueueNeigboursToRecalc(Vector2Int position)
     {
-        if (existingTile == null) return true;
-
-        if (direction == Vector3.right)
-            return Enumerable.SequenceEqual(existingTile.ColorsRight, tileToAppend.ColorsLeft);
-
-        else if (direction == Vector3.left)
-            return Enumerable.SequenceEqual(existingTile.ColorsLeft, tileToAppend.ColorsRight);
-
-        else if (direction == Vector3.forward)
-            return Enumerable.SequenceEqual(existingTile.ColorsForward, tileToAppend.ColorsBack);
-
-        else if (direction == Vector3.back)
-            return Enumerable.SequenceEqual(existingTile.ColorsBack, tileToAppend.ColorsForward);
-
-        else
-            throw new ArgumentException(message: "Wrong direction value, shoud be Vector3.left/right/forward/back", nameof(direction));
+        recalcPossibleTilesQueue.Enqueue(new Vector2Int(x: position.x + 1, position.y));
+        recalcPossibleTilesQueue.Enqueue(new Vector2Int(x: position.x - 1, position.y));
+        recalcPossibleTilesQueue.Enqueue(new Vector2Int(position.x, y: position.y + 1));
+        recalcPossibleTilesQueue.Enqueue(new Vector2Int(position.x, y: position.y - 1));
     }
+
+    
 }

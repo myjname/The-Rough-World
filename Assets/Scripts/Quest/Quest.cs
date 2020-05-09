@@ -3,17 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
+[Serializable]
 public class Quest
 {
-    public List<Dialog> dialogs;
-    public QuestStatus QStatus;
+    public string QuestName;
+    public string DescriptionGoal;
     public QuestGoal QGoal;
 }
 
+[Serializable]
 public class CollectionQuest : Quest
 {
-    public int count;
-    public Item item;
+    public int Count;
+    public Item Item;
 
     public CollectionQuest()
     {
@@ -21,10 +23,11 @@ public class CollectionQuest : Quest
     }
 }
 
+[Serializable]
 public class KillQuest : Quest
 {
-    public int count;
-    public Item item;
+    public int Count;
+    public Item Item;
 
     public KillQuest()
     {
@@ -32,10 +35,11 @@ public class KillQuest : Quest
     }
 }
 
+[Serializable]
 public class TalkQuest : Quest
 {
-    public int count;
-    public Item item;
+    public int Count;
+    public Item Item;
 
     public TalkQuest()
     {
@@ -43,16 +47,40 @@ public class TalkQuest : Quest
     }
 }
 
-public enum QuestStatus
+[Serializable]
+public class TravelQuest : Quest
 {
-    NotTaken,
-    InProces,
-    Complete
+    public Vector3 Coord;
+    public int SceneID;
+
+    public TravelQuest()
+    {
+        QGoal = QuestGoal.Travel;
+    }
 }
 
+[Serializable]
 public enum QuestGoal
 {
     Collection,
     Kill,
-    Talk
+    Talk,
+    Travel
+}
+
+
+[Serializable]
+public class QuestWithState
+{
+    public Quest Quest;
+    public QuestState QuestState;
+}
+
+[Serializable]
+public enum QuestState
+{
+    NotTaken,
+    InProces,
+    Complete,
+    Passed
 }

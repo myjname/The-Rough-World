@@ -33,11 +33,12 @@ public class Inventory : MonoBehaviour
 
     private Vector3 offset = new Vector3(50, 50);
 
+    [HideInInspector]
     public bool IsDragging = false;
+    [HideInInspector]
     public bool IsMenuActive = false;
-    public bool IsClicked = false;
 
-    private bool serch = true;
+    private bool search = true;
     #endregion
 
     private void Start()
@@ -68,11 +69,11 @@ public class Inventory : MonoBehaviour
 
         ActiveInventory();
 
-        while (serch)
+        while (search)
         {
             persGG = GameObject.FindGameObjectWithTag("Player");
 
-            serch = false;
+            search = false;
         }
     }
 

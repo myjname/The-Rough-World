@@ -17,3 +17,9 @@ public class SaveMapSeed
 {
     public int Seed;
 }
+
+[Serializable]
+public class SaveQuests
+{
+    public List<QuestWithState> TakedQuests;
+}
