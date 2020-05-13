@@ -28,12 +28,16 @@ public class CreateDialogs
                 CreateDialog(speaker, "Квестов нет...");
                 CreateDialog(speaker, "Мойте руки, это сейчас актуально.");
                 break;
-            case NPCharacters.SecondNPC:
+            case NPCharacters.FirstNPCQuest:
                 speaker = "SecondNPS";
                 CreateDialog(speaker, "...");
                 CreateDialog(speaker, "Есть квест");
                 CreateDialog(speaker, "...");
                 CreateDialog(speaker, "Хочешь?", "FirstTravel");
+                break;
+            case NPCharacters.FirstNPCCong:
+                speaker = "SecondNPS";
+                CreateDialog(speaker, "Спасибо, что выполнил квест!");
                 break;
         }
         
@@ -61,5 +65,6 @@ public class CreateDialogs
 public enum NPCharacters
 {
     FirstNPC,
-    SecondNPC
+    FirstNPCQuest,
+    FirstNPCCong
 }

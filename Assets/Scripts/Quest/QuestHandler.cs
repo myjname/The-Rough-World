@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
@@ -24,7 +25,7 @@ public class QuestHandler : MonoBehaviour
 
     private bool search = true;
 
-    private static JsonSerializerSettings JsonSettings = new JsonSerializerSettings
+    private static JsonSerializerSettings JsonSettings = new JsonSerializerSettings // позволяет сериализовать класс, запоминая разные классы в листе
     {
         TypeNameHandling = TypeNameHandling.All
     };
@@ -36,8 +37,6 @@ public class QuestHandler : MonoBehaviour
         QuestUI = Resources.Load<GameObject>("UI/QuestUI");
 
         wayToFile = Path.Combine(Application.dataPath, "Saves/" + nameOfSave + "/SaveQuestsData.json");
-
-        QuestUpdate();
     }
 
     private void Update()
@@ -45,13 +44,22 @@ public class QuestHandler : MonoBehaviour
         while (search)
         {
             persGG = GameObject.FindGameObjectWithTag("Player");
-            
+
+            QuestUpdate();
+
+            StartCoroutine(EnumUpdate());
+
             search = false;
         }
+    }
 
-        if (!search)
+    private IEnumerator EnumUpdate()
+    {
+        while (true)
         {
             CheckQuests();
+
+            yield return new WaitForSeconds(3);
         }
     }
 
@@ -65,11 +73,14 @@ public class QuestHandler : MonoBehaviour
 
             for (int i = 0; i < SaveQs.TakedQuests.Count; i++)
             {
-                LocalQuestUI = Instantiate(QuestUI, QuestListUI.transform);
+                if (SaveQs.TakedQuests[i].QuestState != QuestState.Passed)
+                {
+                    LocalQuestUI = Instantiate(QuestUI, QuestListUI.transform);
 
-                LocalQuestUI.transform.GetChild(0).GetComponent<Text>().text = SaveQs.TakedQuests[i].Quest.QuestName;
-                LocalQuestUI.transform.GetChild(1).GetComponent<Text>().text = SaveQs.TakedQuests[i].Quest.DescriptionGoal;
-                LocalQuestUI.transform.GetChild(2).GetComponent<Text>().text = SaveQs.TakedQuests[i].Quest.QGoal.ToString();
+                    LocalQuestUI.transform.GetChild(0).GetComponent<Text>().text = SaveQs.TakedQuests[i].Quest.QuestName;
+                    LocalQuestUI.transform.GetChild(1).GetComponent<Text>().text = SaveQs.TakedQuests[i].Quest.DescriptionGoal;
+                    LocalQuestUI.transform.GetChild(2).GetComponent<Text>().text = SaveQs.TakedQuests[i].QuestState.ToString();
+                }
             }
         }
     }
@@ -80,24 +91,31 @@ public class QuestHandler : MonoBehaviour
         {
             for (int i = 0; i < SaveQs.TakedQuests.Count; i++)
             {
-                switch (SaveQs.TakedQuests[i].Quest.QGoal)
+                if (SaveQs.TakedQuests.Count > 0 && SaveQs.TakedQuests[i].QuestState == QuestState.InProces)
                 {
-                    case QuestGoal.Collection:
-                        break;
-                    case QuestGoal.Kill:
-                        break;
-                    case QuestGoal.Talk:
-                        break;
-                    case QuestGoal.Travel:
-                        TravelQuest TQuest = SaveQs.TakedQuests[i].Quest as TravelQuest;
-                        if (persGG.transform.position.x < TQuest.Coord.x + 2 &&
-                            persGG.transform.position.x > TQuest.Coord.x - 2 &&
-                            persGG.transform.position.y < TQuest.Coord.x + 2 &&
-                            persGG.transform.position.y > TQuest.Coord.x - 2 &&
-                            persGG.transform.position.z < TQuest.Coord.x + 2 &&
-                            persGG.transform.position.z > TQuest.Coord.x - 2 &&
-                            SceneManager.GetActiveScene().buildIndex == TQuest.SceneID) SaveQs.TakedQuests[i].QuestState = QuestState.Passed;
-                        break;
+                    switch (SaveQs.TakedQuests[i].Quest.QGoal)
+                    {
+                        case QuestGoal.Collection:
+                            break;
+                        case QuestGoal.Kill:
+                            break;
+                        case QuestGoal.Talk:
+                            break;
+                        case QuestGoal.Travel:
+                            TravelQuest TQuest = SaveQs.TakedQuests[i].Quest as TravelQuest;
+                            if (persGG.transform.position.x < TQuest.Coord.x + 2 &&
+                                persGG.transform.position.x > TQuest.Coord.x - 2 &&
+                                persGG.transform.position.y < TQuest.Coord.y + 2 &&
+                                persGG.transform.position.y > TQuest.Coord.y - 2 &&
+                                persGG.transform.position.z < TQuest.Coord.z + 2 &&
+                                persGG.transform.position.z > TQuest.Coord.z - 2 &&
+                                SceneManager.GetActiveScene().buildIndex == TQuest.SceneID)
+                            {
+                                SaveQs.TakedQuests[i].QuestState = QuestState.Complete;
+                                File.WriteAllText(wayToFile, JsonConvert.SerializeObject(SaveQs, JsonSettings));
+                            }
+                            break;
+                    }
                 }
             }
             QuestUpdate();

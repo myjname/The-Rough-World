@@ -15,9 +15,10 @@ public class MechanicsMahGG : MonoBehaviour {
     private CharacterController ch_controller;
     private Animator ch_animator;
 
+    private int speedRun;
+
     void Start ()
     {
-        //transform.position = new Vector3(0.6f, 0f, 0f);
         ch_controller = GetComponent<CharacterController>();
         ch_animator = GetComponent<Animator>();
     }
@@ -34,9 +35,12 @@ public class MechanicsMahGG : MonoBehaviour {
         //Перемещение по поверхности
         if (ch_controller.isGrounded)
         {
+            if (Input.GetKey(KeyCode.LeftShift)) speedRun = 5;
+            else speedRun = 1;
+
             moveVector = Vector3.zero;
-            moveVector.x = Input.GetAxis ("Horizontal") * speedMove;
-            moveVector.z = Input.GetAxis ("Vertical") * speedMove;
+            moveVector.x = Input.GetAxis ("Horizontal") * speedMove * speedRun;
+            moveVector.z = Input.GetAxis ("Vertical") * speedMove * speedRun;
 
             //анимация передвижения персонажа
             if (moveVector.x != 0 || moveVector.z != 0) ch_animator.SetBool ("Move", true);

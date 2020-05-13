@@ -57803,7 +57803,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d652bdd8ab10c34e87821baf2835b60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  npcCharacters: 1
+  npcCharacters: 000000000100000002000000
 --- !u!1001 &2063171774
 PrefabInstance:
   m_ObjectHideFlags: 0
