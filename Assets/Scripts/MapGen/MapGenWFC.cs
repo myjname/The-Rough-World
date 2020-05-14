@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.AI;
 using Random = UnityEngine.Random;
 
 public class MapGenWFC : MonoBehaviour
@@ -24,6 +25,7 @@ public class MapGenWFC : MonoBehaviour
     private int localseed; //локальный сид
 
     private SaveMapSeed mapSeed = new SaveMapSeed();
+    private NavMeshSurface NMSurface;
 
     private string wayToFile;
     public string nameOfSave = "MySave01";
@@ -32,6 +34,7 @@ public class MapGenWFC : MonoBehaviour
     private void Start()
     {
         wayToFile = Path.Combine(Application.dataPath, "Saves/" + nameOfSave + "/SaveMapSeed.json");//путь к файлу сохранения
+        NMSurface = GetComponent<NavMeshSurface>();
 
         if (File.Exists(wayToFile))
         {
@@ -242,6 +245,7 @@ public class MapGenWFC : MonoBehaviour
                 PlaceTail(x, y);
             }
         }
+        NMSurface.BuildNavMesh();
     }
     #endregion
 

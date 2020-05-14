@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MechanicsMahGG : MonoBehaviour {
+public class MechanicsManGG : MonoBehaviour {
     //Основные параметры
     public float speedMove; //скорость персонажа
     public float jumpPower; //сила прыжка
@@ -15,7 +15,7 @@ public class MechanicsMahGG : MonoBehaviour {
     private CharacterController ch_controller;
     private Animator ch_animator;
 
-    private int speedRun;
+    private float speedRun;
 
     void Start ()
     {
@@ -35,7 +35,7 @@ public class MechanicsMahGG : MonoBehaviour {
         //Перемещение по поверхности
         if (ch_controller.isGrounded)
         {
-            if (Input.GetKey(KeyCode.LeftShift)) speedRun = 5;
+            if (Input.GetKey(KeyCode.LeftShift)) speedRun = 2;
             else speedRun = 1;
 
             moveVector = Vector3.zero;

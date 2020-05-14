@@ -64,8 +64,9 @@ public class VoxelTile : MonoBehaviour {
     }
 
     //Метод воровства цвета у "вокселя"
-    private int GetVoxelColor (int verticalLayer, int horizontalOffset, Vector3 direction) {
-        var meshColider = GetComponentInChildren<MeshCollider> (); //кешируем меш колайдер, чтобы делать рейкаст (запуск луча)
+    private int GetVoxelColor (int verticalLayer, int horizontalOffset, Vector3 direction)
+    {
+        MeshCollider meshColider = GetComponent<MeshCollider>(); //кешируем меш колайдер, чтобы делать рейкаст (запуск луча)
 
         float vox = VoxelSize;
         float half = VoxelSize / 2; //для удобства

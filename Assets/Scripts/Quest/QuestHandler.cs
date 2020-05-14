@@ -85,7 +85,7 @@ public class QuestHandler : MonoBehaviour
         }
     }
 
-    private void CheckQuests() //ЕЩЕЩЕЩЕЩЕЩЕЩЕЩЕ
+    private void CheckQuests()
     {
         if (File.Exists(wayToFile))
         {

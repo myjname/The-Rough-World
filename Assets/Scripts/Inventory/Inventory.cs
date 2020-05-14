@@ -26,6 +26,8 @@ public class Inventory : MonoBehaviour
 
     private GameObject persGG;
 
+    public GameObject ObjInArm;
+
     public EventSystem eSys;
     public InventoryType InvType;
     private Manager manager = new Manager();
@@ -75,6 +77,8 @@ public class Inventory : MonoBehaviour
 
             search = false;
         }
+
+        InteractWithTollBet();
     }
 
     #region Init
@@ -191,7 +195,8 @@ public class Inventory : MonoBehaviour
                 {
                     StartDrag();
 
-                    SpawnInfoOfItem();
+                    if (InvType == InventoryType.MainInventory ||
+                        InvType == InventoryType.Chest) SpawnInfoOfItem();
                 }
                 else ChosenItem = -1;
             }
@@ -244,11 +249,15 @@ public class Inventory : MonoBehaviour
         ChosenItem = -1;
 
         IsDragging = false;
+
+        DestroyInfoOfItem();
     }
     public void UpdateInventory()
     {
         for (int i = 0; i < inventory.Length; i++)
         {
+            if (inventory[i].Count < 1) inventory[i].Item = null;
+
             if (inventory[i].Item == null)
             {
                 inventoryUI[i].transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("ItemSprite/Empty");
@@ -305,7 +314,6 @@ public class Inventory : MonoBehaviour
         inventory[invSlotNum].Count = 0;
 
         StopDrag();
-        DestroyInfoOfItem();
         UpdateInventory();
     }
     public void DropItem(Item item, int count)
@@ -334,6 +342,51 @@ public class Inventory : MonoBehaviour
     public void DestroyInfoOfItem()
     {
         Destroy(localInfoOfItemUI);
+    }
+    public void InteractWithTollBet()
+    {
+        if (InvType == InventoryType.ToolBet)
+        {
+            if (Input.GetKeyDown(KeyCode.Alpha1) && inventory[0].Item != null)
+            {
+                UseObjectInTollBet(0, inventory[0].Item.ItemType);
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha2) && inventory[1].Item != null)
+            {
+                UseObjectInTollBet(1, inventory[1].Item.ItemType);
+            }
+        }
+    }
+    public void UseObjectInTollBet(int numSlot, ItemType itemType)
+    {
+        switch (numSlot)
+        {
+            case 0:
+                UseObjectItemType(numSlot, itemType);
+                break;
+            case 1:
+                UseObjectItemType(numSlot, itemType);
+                break;
+        }
+    }
+    public void UseObjectItemType(int numSlot, ItemType itemType)
+    {
+        switch (itemType)
+        {
+            case ItemType.Food:
+                inventory[numSlot].Count -= 1;
+                //пополнять еду
+                break;
+            case ItemType.Heal:
+                inventory[numSlot].Count -= 1;
+                //пополнять здоровье
+                break;
+            case ItemType.Weapon:
+                if (ObjInArm == null) ObjInArm = Instantiate(inventory[numSlot].Item.WorldObj, persGG.transform);
+                else Destroy(ObjInArm);
+                break;
+        }
+        UpdateInventory();
     }
     #endregion
 
