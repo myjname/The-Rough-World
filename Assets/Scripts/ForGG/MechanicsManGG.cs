@@ -2,20 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MechanicsManGG : MonoBehaviour {
-    //Основные параметры
+public class MechanicsManGG : MonoBehaviour
+{
     public float speedMove; //скорость персонажа
     public float jumpPower; //сила прыжка
 
-    //Параметры геймплея для персонажа
     private float gravityForces; //гравитация персонажа
     private Vector3 moveVector; //направление движения персонажа
 
-    //Ссылки на компоненты
     private CharacterController ch_controller;
     private Animator ch_animator;
 
     private float speedRun;
+
+    private Vector3 mouseCord;
 
     void Start ()
     {
@@ -29,10 +29,8 @@ public class MechanicsManGG : MonoBehaviour {
         GamingGravity();
     }
 
-    //Метод перемещения персонажа
     private void CharacterMove()
     {
-        //Перемещение по поверхности
         if (ch_controller.isGrounded)
         {
             if (Input.GetKey(KeyCode.LeftShift)) speedRun = 2;
@@ -42,11 +40,9 @@ public class MechanicsManGG : MonoBehaviour {
             moveVector.x = Input.GetAxis ("Horizontal") * speedMove * speedRun;
             moveVector.z = Input.GetAxis ("Vertical") * speedMove * speedRun;
 
-            //анимация передвижения персонажа
             if (moveVector.x != 0 || moveVector.z != 0) ch_animator.SetBool ("Move", true);
             else ch_animator.SetBool ("Move", false);
 
-            //Поворот персонажа в сторону направления перемещения
             if (Vector3.Angle(Vector3.forward, moveVector) > 1 || Vector3.Angle(Vector3.forward, moveVector) == 0)
             {
                 Vector3 direct = Vector3.RotateTowards (transform.forward, moveVector, speedMove, 0.0f);
@@ -65,5 +61,4 @@ public class MechanicsManGG : MonoBehaviour {
         else gravityForces = -1f;
         if (Input.GetKeyDown (KeyCode.Space) && ch_controller.isGrounded) gravityForces = jumpPower;
     }
-
 }
