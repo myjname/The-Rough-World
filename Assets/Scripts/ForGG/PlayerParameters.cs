@@ -4,10 +4,8 @@ using UnityEngine;
 
 public class PlayerParameters : MonoBehaviour
 {
-    [SerializeField]
-    private int HitPoints = 0;
-    [SerializeField]
-    private int ActionPoints = 0;
+    public int HitPoints = 0;
+    public int ActionPoints = 0;
     [SerializeField]
     private int WaterPoints = 0;
     [SerializeField]
@@ -48,5 +46,6 @@ public class PlayerParameters : MonoBehaviour
         if (localWaterPoints < 0) localWaterPoints = 0;
         if (localFoodPoints < 0) localFoodPoints = 0;
         if (Damage < 0) Damage = 0;
+        GetComponent<StatusBar>().UpdateStatusBar();
     }
 }

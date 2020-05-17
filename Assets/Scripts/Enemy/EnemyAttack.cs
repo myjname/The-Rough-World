@@ -20,9 +20,6 @@ public class EnemyAttack : MonoBehaviour
     {
         if (collider.tag == "Player" && localDelay <= 0)
         {
-            //playerParameters = collider.GetComponent<PlayerParameters>();
-            //playerParameters.localHitPoints -= enemyParameters.Damage;
-
             collider.GetComponent<PlayerParameters>().localHitPoints -= enemyParameters.localDamage;
 
             Debug.Log($"Enemy attack! Damage = {enemyParameters.localDamage}! Player HP = {collider.GetComponent<PlayerParameters>().localHitPoints}");

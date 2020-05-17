@@ -358,37 +358,38 @@ public class Inventory : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Alpha1) && inventory[0].Item != null)
             {
-                UseObjectInTollBet(0, inventory[0].Item.ItemType);
+                UseObjectInTollBet(0, inventory[0].Item);
             }
             if (Input.GetKeyDown(KeyCode.Alpha2) && inventory[1].Item != null)
             {
-                UseObjectInTollBet(1, inventory[1].Item.ItemType);
+                UseObjectInTollBet(1, inventory[1].Item);
             }
         }
     }
-    public void UseObjectInTollBet(int numSlot, ItemType itemType)
+    public void UseObjectInTollBet(int numSlot, Item item)
     {
         switch (numSlot)
         {
             case 0:
-                UseObjectItemType(numSlot, itemType);
+                UseObjectItemType(numSlot, item);
                 break;
             case 1:
-                UseObjectItemType(numSlot, itemType);
+                UseObjectItemType(numSlot, item);
                 break;
         }
     }
-    public void UseObjectItemType(int numSlot, ItemType itemType)
+    public void UseObjectItemType(int numSlot, Item item)
     {
-        switch (itemType)
+        switch (item.ItemType)
         {
             case ItemType.Food:
                 inventory[numSlot].Count -= 1;
-                //пополнять еду
+                persGG.GetComponent<PlayerParameters>().localFoodPoints += (item as FoodItem).FoodPower;
+                persGG.GetComponent<PlayerParameters>().localWaterPoints += (item as FoodItem).WaterPower;
                 break;
             case ItemType.Heal:
                 inventory[numSlot].Count -= 1;
-                //пополнять здоровье
+                persGG.GetComponent<PlayerParameters>().localHitPoints += (item as HealItem).HealPower;
                 break;
             case ItemType.Weapon:
                 if (ObjInArm == null)
@@ -399,6 +400,10 @@ public class Inventory : MonoBehaviour
                     ObjInArm.transform.localEulerAngles = new Vector3(80, 0, 0);
                     ObjInArm.transform.localScale = new Vector3(0.008f, 0.008f, 0.008f);
                     ObjInArm.tag = "Weapon";
+
+                    WeaponInfoInArm weaponInfoInArm = ObjInArm.AddComponent<WeaponInfoInArm>();
+                    weaponInfoInArm.Damage = (item as WeaponItem).Damage;
+                    weaponInfoInArm.Durability = (item as WeaponItem).MaxDurability;
                 } 
                 else
                 {

@@ -8,12 +8,13 @@ public class EnemyParameters : MonoBehaviour
     private int HitPoints = 0;
     [SerializeField]
     private int Damage = 0;
+    [SerializeField]
+    private bool DieIfZero = true;
 
     [HideInInspector]
     public int localHitPoints = 0;
     [HideInInspector]
     public int localDamage = 0;
-
 
     private void Start()
     {
@@ -23,6 +24,6 @@ public class EnemyParameters : MonoBehaviour
 
     private void Update()
     {
-        if (localHitPoints <= 0) Destroy(gameObject);
+        if (localHitPoints <= 0 && DieIfZero) Destroy(gameObject);
     }
 }
