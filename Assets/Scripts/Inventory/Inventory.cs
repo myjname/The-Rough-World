@@ -26,7 +26,9 @@ public class Inventory : MonoBehaviour
 
     private GameObject persGG;
 
+    [HideInInspector]
     public GameObject ObjInArm;
+    private int chosenTollBetSlot = -1;
 
     public EventSystem eSys;
     public InventoryType InvType;
@@ -262,6 +264,11 @@ public class Inventory : MonoBehaviour
             {
                 inventoryUI[i].transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("ItemSprite/Empty");
                 inventoryUI[i].transform.GetChild(1).GetComponent<Text>().text = "";
+
+                if (InvType == InventoryType.ToolBet && chosenTollBetSlot == i)
+                {
+                    Destroy(ObjInArm);
+                }
             }
             else
             {
@@ -269,6 +276,8 @@ public class Inventory : MonoBehaviour
                 inventoryUI[i].transform.GetChild(1).GetComponent<Text>().text = inventory[i].Count.ToString();
             }
         }
+
+        
     }
     #endregion
 
@@ -382,8 +391,20 @@ public class Inventory : MonoBehaviour
                 //пополнять здоровье
                 break;
             case ItemType.Weapon:
-                if (ObjInArm == null) ObjInArm = Instantiate(inventory[numSlot].Item.WorldObj, persGG.transform);
-                else Destroy(ObjInArm);
+                if (ObjInArm == null)
+                {
+                    chosenTollBetSlot = numSlot;
+                    ObjInArm = Instantiate(inventory[numSlot].Item.WorldObj, persGG.transform.GetChild(1).GetChild(0));
+                    ObjInArm.transform.localPosition = new Vector3(-0.002193f, -0.000732f, -0.000479f);
+                    ObjInArm.transform.localEulerAngles = new Vector3(80, 0, 0);
+                    ObjInArm.transform.localScale = new Vector3(0.008f, 0.008f, 0.008f);
+                    ObjInArm.tag = "Weapon";
+                } 
+                else
+                {
+                    chosenTollBetSlot = -1;
+                    Destroy(ObjInArm);
+                }
                 break;
         }
         UpdateInventory();

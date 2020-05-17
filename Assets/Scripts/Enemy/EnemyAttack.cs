@@ -4,11 +4,35 @@ using UnityEngine;
 
 public class EnemyAttack : MonoBehaviour
 {
-    private void OnTriggerEnter(Collider collider)
+    public float Delay = 2;
+    private float localDelay;
+
+    private EnemyParameters enemyParameters;
+    private PlayerParameters playerParameters;
+
+    private void Start()
     {
-        if (collider.tag == "Player")
+        localDelay = Delay;
+        enemyParameters = GetComponentInParent<EnemyParameters>();
+    }
+
+    private void OnTriggerStay(Collider collider)
+    {
+        if (collider.tag == "Player" && localDelay <= 0)
         {
-            Debug.Log("EnemyAttack");
+            //playerParameters = collider.GetComponent<PlayerParameters>();
+            //playerParameters.localHitPoints -= enemyParameters.Damage;
+
+            collider.GetComponent<PlayerParameters>().localHitPoints -= enemyParameters.localDamage;
+
+            Debug.Log($"Enemy attack! Damage = {enemyParameters.localDamage}! Player HP = {collider.GetComponent<PlayerParameters>().localHitPoints}");
+
+            localDelay = Delay;
         }
+    }
+
+    private void Update()
+    {
+        if (localDelay > 0) localDelay -= Time.deltaTime;
     }
 }

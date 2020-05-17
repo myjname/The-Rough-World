@@ -9,19 +9,19 @@ public class TakeItem : MonoBehaviour
     
     private PickUp pickUp;
 
-    private void OnTriggerEnter(Collider colider)
+    private void OnTriggerEnter(Collider collider)
     {
-        if (colider.tag == "Item")
+        if (collider.tag == "Item")
         {
             Debug.Log("Предмет!");
 
             Cam = GameObject.Find("Main Camera");
-            pickUp = colider.GetComponent<PickUp>();
+            pickUp = collider.GetComponent<PickUp>();
 
             MainInventory = Cam.GetComponents<Inventory>()[0];
             MainInventory.AddItem(pickUp.id, pickUp.count);
 
-            Destroy(colider.gameObject);
+            Destroy(collider.gameObject);
         }
     }
 }

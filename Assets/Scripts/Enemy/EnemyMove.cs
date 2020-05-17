@@ -11,7 +11,7 @@ public class EnemyMove : MonoBehaviour
     {
         if (colider.tag == "Player")
         {
-            agent = GetComponent<NavMeshAgent>();
+            agent = transform.parent.GetComponent<NavMeshAgent>();
             Vector3 targetPosition = colider.transform.position;
             agent.SetDestination(targetPosition);
         }
