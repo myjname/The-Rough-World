@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -17,15 +18,18 @@ public class Manager
         return IDB;
     }
 
+    //Resources.Load<GameObject>(item.WorldObj)
+    //Resources.Load<Sprite>("ItemSprite/" + id)
+
     private void CreateHealItem(string title, int stackSize, int id, int healPower)// id 1000-1999
     {
         HealItem item = new HealItem { Title = title, StackSize = stackSize, Id = id, HealPower = healPower };
 
-        item.Icon = Resources.Load<Sprite>("ItemSprite/" + id);
-        if (item.Icon == null) item.Icon = Resources.Load<Sprite>("ItemSprite/Unknown");
+        item.Icon = "ItemSprite/" + id;
+        if (item.Icon == null) item.Icon = "ItemSprite/Unknown";
 
-        item.WorldObj = Resources.Load<GameObject>("ItemObj/" + id);
-        if (item.WorldObj == null) item.WorldObj = Resources.Load<GameObject>("ItemObj/Unknown");
+        item.WorldObj = "ItemObj/" + id;
+        if (item.WorldObj == null) item.WorldObj = "ItemObj/Unknown";
 
         IDB.Add(item);
     }
@@ -34,11 +38,11 @@ public class Manager
     {
         FoodItem item = new FoodItem { Title = title, StackSize = stackSize, Id = id, FoodPower = foodPower, WaterPower = waterPower };
 
-        item.Icon = Resources.Load<Sprite>("ItemSprite/" + id);
-        if (item.Icon == null) item.Icon = Resources.Load<Sprite>("ItemSprite/Unknown");
+        item.Icon = "ItemSprite/" + id;
+        if (item.Icon == null) item.Icon = "ItemSprite/Unknown";
 
-        item.WorldObj = Resources.Load<GameObject>("ItemObj/" + id);
-        if (item.WorldObj == null) item.WorldObj = Resources.Load<GameObject>("ItemObj/Unknown");
+        item.WorldObj = "ItemObj/" + id;
+        if (item.WorldObj == null) item.WorldObj = "ItemObj/Unknown";
 
         IDB.Add(item);
     }
@@ -47,11 +51,11 @@ public class Manager
     {
         QuestItem item = new QuestItem { Title = title, StackSize = stackSize, Id = id };
 
-        item.Icon = Resources.Load<Sprite>("ItemSprite/" + id);
-        if (item.Icon == null) item.Icon = Resources.Load<Sprite>("ItemSprite/Unknown");
+        item.Icon = "ItemSprite/" + id;
+        if (item.Icon == null) item.Icon = "ItemSprite/Unknown";
 
-        item.WorldObj = Resources.Load<GameObject>("ItemObj/" + id);
-        if (item.WorldObj == null) item.WorldObj = Resources.Load<GameObject>("ItemObj/Unknown");
+        item.WorldObj = "ItemObj/" + id;
+        if (item.WorldObj == null) item.WorldObj = "ItemObj/Unknown";
 
         IDB.Add(item);
     }
@@ -60,11 +64,11 @@ public class Manager
     {
         ToolItem item = new ToolItem { Title = title, StackSize = stackSize, Id = id, MaxDurability = maxDurability, ResourceType = resourceType };
 
-        item.Icon = Resources.Load<Sprite>("ItemSprite/" + id);
-        if (item.Icon == null) item.Icon = Resources.Load<Sprite>("ItemSprite/Unknown");
+        item.Icon = "ItemSprite/" + id;
+        if (item.Icon == null) item.Icon = "ItemSprite/Unknown";
 
-        item.WorldObj = Resources.Load<GameObject>("ItemObj/" + id);
-        if (item.WorldObj == null) item.WorldObj = Resources.Load<GameObject>("ItemObj/Unknown");
+        item.WorldObj = "ItemObj/" + id;
+        if (item.WorldObj == null) item.WorldObj = "ItemObj/Unknown";
 
         IDB.Add(item);
     }
@@ -73,11 +77,11 @@ public class Manager
     {
         WeaponItem item = new WeaponItem { Title = title, StackSize = stackSize, Id = id, MaxDurability = maxDurability, Damage = damage };
 
-        item.Icon = Resources.Load<Sprite>("ItemSprite/" + id);
-        if (item.Icon == null) item.Icon = Resources.Load<Sprite>("ItemSprite/Unknown");
+        item.Icon = "ItemSprite/" + id;
+        if (item.Icon == null) item.Icon = "ItemSprite/Unknown";
 
-        item.WorldObj = Resources.Load<GameObject>("ItemObj/" + id);
-        if (item.WorldObj == null) item.WorldObj = Resources.Load<GameObject>("ItemObj/Unknown");
+        item.WorldObj = "ItemObj/" + id;
+        if (item.WorldObj == null) item.WorldObj = "ItemObj/Unknown";
 
         IDB.Add(item);
     }
@@ -86,11 +90,11 @@ public class Manager
     {
         ClothingItem item = new ClothingItem { Title = title, StackSize = stackSize, Id = id, MaxDurability = maxDurability, Armor = armor };
 
-        item.Icon = Resources.Load<Sprite>("ItemSprite/" + id);
-        if (item.Icon == null) item.Icon = Resources.Load<Sprite>("ItemSprite/Unknown");
+        item.Icon = "ItemSprite/" + id;
+        if (item.Icon == null) item.Icon = "ItemSprite/Unknown";
 
-        item.WorldObj = Resources.Load<GameObject>("ItemObj/" + id);
-        if (item.WorldObj == null) item.WorldObj = Resources.Load<GameObject>("ItemObj/Unknown");
+        item.WorldObj = "ItemObj/" + id;
+        if (item.WorldObj == null) item.WorldObj = "ItemObj/Unknown";
 
         IDB.Add(item);
     }
@@ -99,22 +103,24 @@ public class Manager
     {
         ResourceItem item = new ResourceItem { Title = title, StackSize = stackSize, Id = id, ResourceType = resourceType };
 
-        item.Icon = Resources.Load<Sprite>("ItemSprite/" + id);
-        if (item.Icon == null) item.Icon = Resources.Load<Sprite>("ItemSprite/Unknown");
+        item.Icon = "ItemSprite/" + id;
+        if (item.Icon == null) item.Icon = "ItemSprite/Unknown";
 
-        item.WorldObj = Resources.Load<GameObject>("ItemObj/" + id);
-        if (item.WorldObj == null) item.WorldObj = Resources.Load<GameObject>("ItemObj/Unknown");
+        item.WorldObj = "ItemObj/" + id;
+        if (item.WorldObj == null) item.WorldObj = "ItemObj/Unknown";
 
         IDB.Add(item);
     }
 }
 
+[Serializable]
 public class Slot
 {
     public Item Item { get; set; }
     public int Count { get; set; }
 }
 
+[Serializable]
 public enum InventoryType
 {
     MainInventory,

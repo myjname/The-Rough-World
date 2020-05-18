@@ -19,10 +19,16 @@ public class ForAttackCollider : MonoBehaviour
 
         if (collider.tag == "Enemy")
         {
-            collider.GetComponentInParent<EnemyParameters>().localHitPoints -= playerParameters.localDamage + ObjInArm.GetComponent<WeaponInfoInArm>().Damage;
-
-            collider.GetComponentInParent<Rigidbody>().AddRelativeForce(Vector3.back * 10, ForceMode.Impulse);
-
+            if (ObjInArm != null)
+            {
+                collider.GetComponentInParent<EnemyParameters>().localHitPoints -= playerParameters.localDamage + ObjInArm.GetComponent<WeaponInfoInArm>().Damage;
+                collider.GetComponentInParent<Rigidbody>().AddRelativeForce(Vector3.back * 10, ForceMode.Impulse);
+            }
+            else
+            {
+                collider.GetComponentInParent<EnemyParameters>().localHitPoints -= playerParameters.localDamage;
+                collider.GetComponentInParent<Rigidbody>().AddRelativeForce(Vector3.back * 5, ForceMode.Impulse);
+            }
             Debug.Log($"Player attack, damage = {playerParameters.localDamage}! Enemy HP = {collider.GetComponentInParent<EnemyParameters>().localHitPoints}!");
         }
     }

@@ -29,7 +29,7 @@ public class ChestMechanics : MonoBehaviour
     {
         //Debug.Log($"Предмет: {item.Title}, выброшен в количестве: {count}");
 
-        GameObject dropItem = Instantiate(item.WorldObj, transform.position + new Vector3(Random.Range(-1, 1), 0, Random.Range(-1, 1)), Quaternion.identity);
+        GameObject dropItem = Instantiate(Resources.Load<GameObject>(item.WorldObj), transform.position + new Vector3(Random.Range(-1, 1), 0, Random.Range(-1, 1)), Quaternion.identity);
         dropItem.tag = "Item";
 
         PickUp pickUp = dropItem.AddComponent<PickUp>();

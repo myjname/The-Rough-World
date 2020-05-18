@@ -23,3 +23,9 @@ public class SaveQuests
 {
     public List<QuestWithState> TakedQuests;
 }
+
+[Serializable]
+public class SaveInventory
+{
+    public Slot[] ItemsAvailable;
+}

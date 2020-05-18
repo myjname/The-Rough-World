@@ -17,7 +17,7 @@ public class ManAttack : MonoBehaviour
             ObjInArm = GameObject.Find("Main Camera").GetComponents<Inventory>()[1].ObjInArm;
         }
 
-        if (Input.GetKeyDown(KeyCode.Mouse0) && Delay <= 0 && ObjInArm != null)
+        if (Input.GetKeyDown(KeyCode.Mouse0) && Delay <= 0)
         {
             Delay = 1;
             localAttackCollider = Instantiate(AttackCollider, transform);

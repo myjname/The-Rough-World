@@ -3,16 +3,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[Serializable]
 public class Item
 {
     public string Title { get; set; }
     public int StackSize { get; set; }
     public int Id { get; set; }
-    public Sprite Icon { get; set; }
-    public GameObject WorldObj { get; set; }
+    public string Icon { get; set; }
+    public string WorldObj { get; set; }
     public ItemType ItemType { get; set; }
 }
 
+[Serializable]
 public class HealItem : Item
 {
     public int HealPower { get; set; }
@@ -23,6 +25,7 @@ public class HealItem : Item
     }
 }
 
+[Serializable]
 public class FoodItem : Item
 {
     public int FoodPower { get; set; }
@@ -34,6 +37,7 @@ public class FoodItem : Item
     }
 }
 
+[Serializable]
 public class QuestItem : Item
 {
     //пока не уверен что тут должно быть
@@ -44,6 +48,7 @@ public class QuestItem : Item
     }
 }
 
+[Serializable]
 public class ToolItem : Item
 {
     public int MaxDurability { get; set; }
@@ -55,6 +60,7 @@ public class ToolItem : Item
     }
 }
 
+[Serializable]
 public class WeaponItem : Item
 {
     public int MaxDurability { get; set; }
@@ -66,6 +72,7 @@ public class WeaponItem : Item
     }
 }
 
+[Serializable]
 public class ClothingItem : Item
 {
     public int MaxDurability { get; set; }
@@ -77,6 +84,7 @@ public class ClothingItem : Item
     }
 }
 
+[Serializable]
 public class ResourceItem : Item
 {
     public ResourceType ResourceType { get; set; }
@@ -87,6 +95,7 @@ public class ResourceItem : Item
     }
 }
 
+[Serializable]
 public enum ItemType
 {
     Heal,
@@ -98,6 +107,7 @@ public enum ItemType
     Resource
 }
 
+[Serializable]
 public enum ResourceType
 {
     None,

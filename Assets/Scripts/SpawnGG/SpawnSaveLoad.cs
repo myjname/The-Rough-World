@@ -9,6 +9,9 @@ public class SpawnSaveLoad : MonoBehaviour
     public GameObject persGG;
     private GameObject localPersGG;
 
+    private Inventory MainInventory;
+    private Inventory ToolBet;
+
     public string nameOfSave = "MySave01";
     private string wayToFile;
 
@@ -17,6 +20,14 @@ public class SpawnSaveLoad : MonoBehaviour
     private SaveParametrs data = new SaveParametrs();
 
     private void Start()
+    {
+        MainInventory = GetComponents<Inventory>()[0];
+        ToolBet = GetComponents<Inventory>()[1];
+
+        FirstInit();
+    }
+
+    private void FirstInit()
     {
         wayToFile = Path.Combine(Application.dataPath, "Saves/" + nameOfSave + "/SaveDataPersGG.json");
 
@@ -43,6 +54,9 @@ public class SpawnSaveLoad : MonoBehaviour
         data.SceneIndex = SceneManager.GetActiveScene().buildIndex;
 
         File.WriteAllText(wayToFile, JsonUtility.ToJson(data));
+
+        MainInventory.InventorySave();
+        ToolBet.InventorySave();
     }
 
     public void LoadData()

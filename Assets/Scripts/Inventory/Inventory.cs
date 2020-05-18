@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using Newtonsoft.Json;
+using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -10,6 +12,8 @@ public class Inventory : MonoBehaviour
     public Slot[] inventory;
     private List<Item> iDB;
     private GameObject[] inventoryUI;
+
+    private SaveInventory SaveInventory = new SaveInventory();
 
     [Range(0, 100)]
     public int InventorySize = 0;
@@ -37,12 +41,20 @@ public class Inventory : MonoBehaviour
 
     private Vector3 offset = new Vector3(50, 50);
 
+    public string nameOfSave = "MySave01";
+    private string wayToFile;
+
     [HideInInspector]
     public bool IsDragging = false;
     [HideInInspector]
     public bool IsMenuActive = false;
 
     private bool search = true;
+
+    private static JsonSerializerSettings JsonSettings = new JsonSerializerSettings
+    {
+        TypeNameHandling = TypeNameHandling.All
+    };
     #endregion
 
     private void Start()
@@ -96,10 +108,28 @@ public class Inventory : MonoBehaviour
     }
     private void InitInventory()
     {
-        inventory = new Slot[InventorySize];
-        for (int i = 0; i < inventory.Length; i++)
+        switch (InvType)
         {
-            inventory[i] = new Slot { Item = null, Count = 0 };
+            case InventoryType.MainInventory:
+                wayToFile = Path.Combine(Application.dataPath, "Saves/" + nameOfSave + "/SaveDataMainInventory.json");
+                break;
+            case InventoryType.ToolBet:
+                wayToFile = Path.Combine(Application.dataPath, "Saves/" + nameOfSave + "/SaveDataToolBet.json");
+                break;
+        }
+
+        if (File.Exists(wayToFile))//Если файла есть
+        {
+            SaveInventory = JsonConvert.DeserializeObject<SaveInventory>(File.ReadAllText(wayToFile), JsonSettings);
+            inventory = SaveInventory.ItemsAvailable;
+        }
+        else
+        {
+            inventory = new Slot[InventorySize];
+            for (int i = 0; i < inventory.Length; i++)
+            {
+                inventory[i] = new Slot { Item = null, Count = 0 };
+            }
         }
     }
     private void LoadInventory()
@@ -241,7 +271,7 @@ public class Inventory : MonoBehaviour
 
         ChosenItem = int.Parse(eSys.currentSelectedGameObject.name);
         
-        DragImg.GetComponent<Image>().sprite = inventory[ChosenItem].Item.Icon;
+        DragImg.GetComponent<Image>().sprite = Resources.Load<Sprite>(inventory[ChosenItem].Item.Icon);
         DragImg.transform.GetChild(0).GetComponent<Text>().text = inventory[ChosenItem].Count.ToString();
     }
     public void StopDrag()
@@ -272,7 +302,7 @@ public class Inventory : MonoBehaviour
             }
             else
             {
-                inventoryUI[i].transform.GetChild(0).GetComponent<Image>().sprite = inventory[i].Item.Icon;
+                inventoryUI[i].transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>(inventory[i].Item.Icon);
                 inventoryUI[i].transform.GetChild(1).GetComponent<Text>().text = inventory[i].Count.ToString();
             }
         }
@@ -329,7 +359,7 @@ public class Inventory : MonoBehaviour
     {
         //Debug.Log($"Предмет: {item.Title}, выброшен в количестве: {count}");
 
-        GameObject dropItem = Instantiate(item.WorldObj, persGG.transform.position + new Vector3(1, 0, 0), Quaternion.identity);
+        GameObject dropItem = Instantiate(Resources.Load<GameObject>(item.WorldObj), persGG.transform.position + new Vector3(1, 0, 0), Quaternion.identity);
         dropItem.tag = "Item";
 
         PickUp pickUp = dropItem.AddComponent<PickUp>();
@@ -345,7 +375,7 @@ public class Inventory : MonoBehaviour
     {
         localInfoOfItemUI = Instantiate(InfoOfItemUI, UI.transform.Find("MainScreen"));
         localInfoOfItemUI.transform.GetChild(0).GetComponent<Button>().onClick.AddListener(delegate { ClearAndDrop(ChosenItem); });
-        localInfoOfItemUI.transform.GetChild(1).GetComponent<Image>().sprite = inventory[ChosenItem].Item.Icon;
+        localInfoOfItemUI.transform.GetChild(1).GetComponent<Image>().sprite = Resources.Load<Sprite>(inventory[ChosenItem].Item.Icon);
         localInfoOfItemUI.transform.GetChild(2).GetComponent<Text>().text = inventory[ChosenItem].Item.Title;
     }
     public void DestroyInfoOfItem()
@@ -395,7 +425,7 @@ public class Inventory : MonoBehaviour
                 if (ObjInArm == null)
                 {
                     chosenTollBetSlot = numSlot;
-                    ObjInArm = Instantiate(inventory[numSlot].Item.WorldObj, persGG.transform.GetChild(1).GetChild(0));
+                    ObjInArm = Instantiate(Resources.Load<GameObject>(inventory[numSlot].Item.WorldObj), persGG.transform.GetChild(1).GetChild(0));
                     ObjInArm.transform.localPosition = new Vector3(-0.002193f, -0.000732f, -0.000479f);
                     ObjInArm.transform.localEulerAngles = new Vector3(80, 0, 0);
                     ObjInArm.transform.localScale = new Vector3(0.008f, 0.008f, 0.008f);
@@ -415,6 +445,11 @@ public class Inventory : MonoBehaviour
         UpdateInventory();
     }
     #endregion
+
+    public void InventorySave()
+    {
+        File.WriteAllText(wayToFile, JsonConvert.SerializeObject(new SaveInventory { ItemsAvailable = inventory}, JsonSettings));
+    }
 
     private void ActiveInventory()
     {
@@ -438,13 +473,13 @@ public class Inventory : MonoBehaviour
         //AddItem(1000, 12);
         //AddItem(1000, 9);
         //AddItem(2000, 4);
-        //AddItem(5000, 3);
-        AddItem(1000, 0, 3);
-        AddItem(1000, 1, 3);
-        AddItem(1000, 3, 8);
-        AddItem(2000, 4, 6);
-        AddItem(5000, 5, 1);
-        AddItem(5000, 6, 1);
+        //AddItem(5000, 1);
+        //AddItem(1000, 0, 3);
+        //AddItem(1000, 1, 3);
+        //AddItem(1000, 3, 8);
+        //AddItem(2000, 4, 6);
+        //AddItem(5000, 5, 1);
+        //AddItem(5000, 6, 1);
 
         //for (int i = 0; i < InventorySize; i++)
         //{
