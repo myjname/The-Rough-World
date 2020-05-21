@@ -12,6 +12,8 @@ public class SpawnSaveLoad : MonoBehaviour
     private Inventory MainInventory;
     private Inventory ToolBet;
 
+    private PlayerParameters PlayerParameters;
+
     public string nameOfSave = "MySave01";
     private string wayToFile;
 
@@ -41,6 +43,10 @@ public class SpawnSaveLoad : MonoBehaviour
 
             localPersGG = Instantiate(persGG, firstPoint, Quaternion.identity) as GameObject;
 
+            PlayerParameters = localPersGG.GetComponent<PlayerParameters>();
+
+            PlayerParameters.InitParameters();
+
             SaveData();
         }
         FinishScript();
@@ -53,6 +59,12 @@ public class SpawnSaveLoad : MonoBehaviour
 
         data.SceneIndex = SceneManager.GetActiveScene().buildIndex;
 
+        data.HP = PlayerParameters.localHitPoints;
+        data.AP = PlayerParameters.localActionPoints;
+        data.WP = PlayerParameters.localWaterPoints;
+        data.FP = PlayerParameters.localFoodPoints;
+        data.D = PlayerParameters.localDamage;
+
         File.WriteAllText(wayToFile, JsonUtility.ToJson(data));
 
         MainInventory.InventorySave();
@@ -64,6 +76,14 @@ public class SpawnSaveLoad : MonoBehaviour
         data = JsonUtility.FromJson<SaveParametrs>(File.ReadAllText(wayToFile));
 
         localPersGG = Instantiate(persGG, data.CharacterCoordinates, data.CharacterRotation) as GameObject;
+
+        PlayerParameters = localPersGG.GetComponent<PlayerParameters>();
+
+        PlayerParameters.localHitPoints = data.HP;
+        PlayerParameters.localActionPoints = data.AP;
+        PlayerParameters.localWaterPoints = data.WP;
+        PlayerParameters.localFoodPoints = data.FP;
+        PlayerParameters.localDamage = data.D;
     }
 
     public void FinishScript()

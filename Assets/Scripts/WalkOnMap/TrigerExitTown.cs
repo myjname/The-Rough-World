@@ -27,6 +27,8 @@ public class TrigerExitTown : MonoBehaviour
         if (colider.tag == "Player")
         {
             Time.timeScale = 0;
+
+            GameObject.Find("Main Camera").GetComponent<SpawnSaveLoad>().SaveData();
             SpawnDialog();
         }
     }
@@ -92,6 +94,8 @@ public class TrigerExitTown : MonoBehaviour
         Destroy(localDialog);
 
         wayToFile = Path.Combine(Application.dataPath, "Saves/" + nameOfSave + "/SaveDataPersGG.json");//путь к файлу сохранения
+
+        parametrs = JsonUtility.FromJson<SaveParametrs>(File.ReadAllText(wayToFile));
 
         parametrs.CharacterCoordinates = coordinate;
         parametrs.SceneIndex = sceneIndex;

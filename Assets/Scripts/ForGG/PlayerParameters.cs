@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 public class PlayerParameters : MonoBehaviour
@@ -24,13 +25,17 @@ public class PlayerParameters : MonoBehaviour
     [HideInInspector]
     public int localDamage = 0;
 
+    public string nameOfSave = "MySave01";
+    private string wayToFile;
+
     private void Start()
     {
-        localHitPoints = HitPoints;
-        localActionPoints = ActionPoints;
-        localWaterPoints = WaterPoints;
-        localFoodPoints = FoodPoints;
-        localDamage = Damage;
+        wayToFile = Path.Combine(Application.dataPath, "Saves/" + nameOfSave + "/SaveDataPersGG.json");
+
+        //if (!File.Exists(wayToFile))
+        //{
+        //    InitParameters();
+        //}
     }
 
     private void Update()
@@ -45,7 +50,17 @@ public class PlayerParameters : MonoBehaviour
         if (localActionPoints < 0) localActionPoints = 0;
         if (localWaterPoints < 0) localWaterPoints = 0;
         if (localFoodPoints < 0) localFoodPoints = 0;
-        if (Damage < 0) Damage = 0;
+        if (Damage < 0) Damage = localDamage;
+
         GetComponent<StatusBar>().UpdateStatusBar();
+    }
+
+    public void InitParameters()
+    {
+        localHitPoints = HitPoints;
+        localActionPoints = ActionPoints;
+        localWaterPoints = WaterPoints;
+        localFoodPoints = FoodPoints;
+        localDamage = Damage;
     }
 }

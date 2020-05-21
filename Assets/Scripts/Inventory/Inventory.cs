@@ -50,23 +50,21 @@ public class Inventory : MonoBehaviour
     public bool IsMenuActive = false;
 
     private bool search = true;
+    #endregion
 
     private static JsonSerializerSettings JsonSettings = new JsonSerializerSettings
     {
         TypeNameHandling = TypeNameHandling.All
     };
-    #endregion
 
     private void Start()
     {
         UI = GameObject.Find("Main Camera");
+        iDB = manager.LoadDataBase();
+        CUI = GetComponents<CameraUI>()[0];
 
         InitUI();
         InitInventory();
-
-        iDB = manager.LoadDataBase();
-
-        CUI = GetComponents<CameraUI>()[0];
 
         inventoryUI = new GameObject[InventorySize];
         SlotPrefab = Resources.Load<GameObject>("UI/SlotPrefab");
@@ -121,7 +119,12 @@ public class Inventory : MonoBehaviour
         if (File.Exists(wayToFile))//Если файла есть
         {
             SaveInventory = JsonConvert.DeserializeObject<SaveInventory>(File.ReadAllText(wayToFile), JsonSettings);
-            inventory = SaveInventory.ItemsAvailable;
+
+            inventory = new Slot[InventorySize];
+            for (int i = 0; i < inventory.Length; i++)
+            {
+                inventory[i] = SaveInventory.ItemsAvailable[i];
+            }
         }
         else
         {
@@ -288,7 +291,11 @@ public class Inventory : MonoBehaviour
     {
         for (int i = 0; i < inventory.Length; i++)
         {
-            if (inventory[i].Count < 1) inventory[i].Item = null;
+            if (inventory[i].Count < 1)
+            {
+                inventory[i].Item = null;
+                inventory[i].Count = 0;
+            }
 
             if (inventory[i].Item == null)
             {
@@ -306,8 +313,6 @@ public class Inventory : MonoBehaviour
                 inventoryUI[i].transform.GetChild(1).GetComponent<Text>().text = inventory[i].Count.ToString();
             }
         }
-
-        
     }
     #endregion
 
@@ -471,9 +476,9 @@ public class Inventory : MonoBehaviour
     private void DebugInventory()// дебаг
     {
         //AddItem(1000, 12);
+        //AddItem(5000, 1);
         //AddItem(1000, 9);
         //AddItem(2000, 4);
-        //AddItem(5000, 1);
         //AddItem(1000, 0, 3);
         //AddItem(1000, 1, 3);
         //AddItem(1000, 3, 8);

@@ -6,12 +6,15 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Main_Menu.unity
+    path: Assets/Scenes/MainMenu_Map.unity
     guid: d80961382c3b356429d9856f18660ca3
   - enabled: 1
-    path: Assets/Scenes/Neit_Test_Town_02.unity
+    path: Assets/Scenes/Neit_Town.unity
     guid: f598d6cb35ced124b9701097e217d020
   - enabled: 1
-    path: Assets/Scenes/Scene_Test_02.unity
+    path: Assets/Scenes/Gen_Map.unity
     guid: f0329d2aec6af4f438232d8952a956c1
+  - enabled: 1
+    path: Assets/Scenes/FirstLocation_Map.unity
+    guid: 5ce8359dbd8408b4281a461132ae7751
   m_configObjects: {}

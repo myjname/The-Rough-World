@@ -19,7 +19,12 @@ public class ChestMechanics : MonoBehaviour
         {
             for (int i = 0; i < Random.Range(1, 4); i++)
             {
-                DropItem(GetRandomItem(), 1);
+                Item dropItem = GetRandomItem();
+
+                int numDropItems = Random.Range(1, dropItem.StackSize + 1);
+                if (numDropItems > 4) numDropItems = 4;
+
+                DropItem(dropItem, numDropItems);
             }
             Destroy(gameObject);
         }
@@ -44,7 +49,7 @@ public class ChestMechanics : MonoBehaviour
 
     private Item GetRandomItem()
     {
-        Item item = iDB[Random.Range(0, 2)];
+        Item item = iDB[Random.Range(0, 3)];
         return item;
     }
 }

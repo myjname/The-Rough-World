@@ -19,7 +19,7 @@ public class Manager
     }
 
     //Resources.Load<GameObject>(item.WorldObj)
-    //Resources.Load<Sprite>("ItemSprite/" + id)
+    //Resources.Load<Sprite>(item.Icon)
 
     private void CreateHealItem(string title, int stackSize, int id, int healPower)// id 1000-1999
     {
@@ -33,7 +33,6 @@ public class Manager
 
         IDB.Add(item);
     }
-
     private void CreateFoodItem(string title, int stackSize, int id, int foodPower, int waterPower)// id 2000-2999
     {
         FoodItem item = new FoodItem { Title = title, StackSize = stackSize, Id = id, FoodPower = foodPower, WaterPower = waterPower };
@@ -46,7 +45,6 @@ public class Manager
 
         IDB.Add(item);
     }
-
     private void CreateQuestItem(string title, int stackSize, int id)// id 3000-3999
     {
         QuestItem item = new QuestItem { Title = title, StackSize = stackSize, Id = id };
@@ -59,7 +57,6 @@ public class Manager
 
         IDB.Add(item);
     }
-
     private void CreateToolItem(string title, int stackSize, int id, int maxDurability, ResourceType resourceType)// id 4000-4999
     {
         ToolItem item = new ToolItem { Title = title, StackSize = stackSize, Id = id, MaxDurability = maxDurability, ResourceType = resourceType };
@@ -72,7 +69,6 @@ public class Manager
 
         IDB.Add(item);
     }
-
     private void CreateWeaponItem(string title, int stackSize, int id, int maxDurability, int damage)// id 5000-5999
     {
         WeaponItem item = new WeaponItem { Title = title, StackSize = stackSize, Id = id, MaxDurability = maxDurability, Damage = damage };
@@ -85,7 +81,6 @@ public class Manager
 
         IDB.Add(item);
     }
-
     private void CreateClothingItem(string title, int stackSize, int id, int maxDurability, int armor)// id 6000-6999
     {
         ClothingItem item = new ClothingItem { Title = title, StackSize = stackSize, Id = id, MaxDurability = maxDurability, Armor = armor };
@@ -98,7 +93,6 @@ public class Manager
 
         IDB.Add(item);
     }
-
     private void CreateResourceItem(string title, int stackSize, int id, ResourceType resourceType)// id 7000-7999
     {
         ResourceItem item = new ResourceItem { Title = title, StackSize = stackSize, Id = id, ResourceType = resourceType };

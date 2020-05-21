@@ -10,6 +10,12 @@ public class SaveParametrs//класс с сохранёнными данным�
     public Quaternion CharacterRotation;
 
     public int SceneIndex;
+
+    public int HP;
+    public int AP;
+    public int WP;
+    public int FP;
+    public int D;
 }
 
 [Serializable]
