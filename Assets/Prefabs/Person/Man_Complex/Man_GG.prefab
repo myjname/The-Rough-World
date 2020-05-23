@@ -291,7 +291,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e76aa6425aea9045b8ae8662e6ecd88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Delay: 1
+  Delay: 0.8
   AttackCollider: {fileID: 7148091058084822299, guid: fe4d0c6411fe18a48829f23f21ddc46f,
     type: 3}
 --- !u!114 &7996248865659679651
@@ -316,6 +316,8 @@ MonoBehaviour:
   localWaterPoints: 0
   localFoodPoints: 0
   localDamage: 0
+  initParam: 0
+  nameOfSave: MySave01
 --- !u!114 &3788433916688819391
 MonoBehaviour:
   m_ObjectHideFlags: 0

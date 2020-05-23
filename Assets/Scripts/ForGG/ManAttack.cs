@@ -5,10 +5,16 @@ using UnityEngine;
 public class ManAttack : MonoBehaviour
 {
     public float Delay = 1;
+    private float localDelay;
 
     public GameObject AttackCollider;
     private GameObject localAttackCollider;
     private GameObject ObjInArm;
+
+    private void Start()
+    {
+        localDelay = Delay;
+    }
 
     private void Update()
     {
@@ -17,20 +23,20 @@ public class ManAttack : MonoBehaviour
             ObjInArm = GameObject.Find("Main Camera").GetComponents<Inventory>()[1].ObjInArm;
         }
 
-        if (Input.GetKeyDown(KeyCode.Mouse0) && Delay <= 0)
+        if (Input.GetKeyDown(KeyCode.Mouse0) && localDelay <= 0)
         {
-            Delay = 1;
+            localDelay = Delay;
             localAttackCollider = Instantiate(AttackCollider, transform);
             localAttackCollider.transform.position = transform.position;
             localAttackCollider.transform.rotation = transform.rotation;
         }
 
-        if (Delay > 0)
+        if (localDelay > 0)
         {
-            Delay -= Time.deltaTime;
+            localDelay -= Time.deltaTime;
         }
 
-        if (Delay <= 0.9f)
+        if (localDelay <= Delay * 0.9f)
         {
             Destroy(localAttackCollider);
         }

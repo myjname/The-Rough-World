@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class PlayerParameters : MonoBehaviour
 {
@@ -25,17 +27,14 @@ public class PlayerParameters : MonoBehaviour
     [HideInInspector]
     public int localDamage = 0;
 
+    public bool initParam = false;
+
     public string nameOfSave = "MySave01";
     private string wayToFile;
 
     private void Start()
     {
         wayToFile = Path.Combine(Application.dataPath, "Saves/" + nameOfSave + "/SaveDataPersGG.json");
-
-        //if (!File.Exists(wayToFile))
-        //{
-        //    InitParameters();
-        //}
     }
 
     private void Update()
@@ -52,6 +51,8 @@ public class PlayerParameters : MonoBehaviour
         if (localFoodPoints < 0) localFoodPoints = 0;
         if (Damage < 0) Damage = localDamage;
 
+        if (initParam && localHitPoints <= 0) PlayerDie();
+
         GetComponent<StatusBar>().UpdateStatusBar();
     }
 
@@ -62,5 +63,30 @@ public class PlayerParameters : MonoBehaviour
         localWaterPoints = WaterPoints;
         localFoodPoints = FoodPoints;
         localDamage = Damage;
+
+        initParam = true;
+    }
+
+    private void PlayerDie()
+    {
+        initParam = false;
+
+        GameObject UI = GameObject.Find("Main Camera");
+        GameObject diePanel = new GameObject();
+
+        diePanel = Instantiate(Resources.Load("UI/DieDialog"), UI.transform.Find("MainScreen")) as GameObject;
+        diePanel.transform.GetChild(1).GetComponent<Button>().onClick.AddListener(delegate { ButtonSendInMenu(); });
+
+        Time.timeScale = 0;
+    }
+
+    private void ButtonSendInMenu()
+    {
+        Time.timeScale = 1;
+
+        wayToFile = Path.Combine(Application.dataPath, "Saves/" + nameOfSave);
+        Directory.Delete(wayToFile, true);
+
+        SceneManager.LoadScene(0);
     }
 }

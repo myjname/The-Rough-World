@@ -84,6 +84,8 @@ public class SpawnSaveLoad : MonoBehaviour
         PlayerParameters.localWaterPoints = data.WP;
         PlayerParameters.localFoodPoints = data.FP;
         PlayerParameters.localDamage = data.D;
+
+        PlayerParameters.initParam = true;
     }
 
     public void FinishScript()

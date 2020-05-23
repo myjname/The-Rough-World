@@ -239,13 +239,14 @@ public class Inventory : MonoBehaviour
             {
                 if (ChosenItem != int.Parse(eSys.currentSelectedGameObject.name)) // если мы нажиимем не в ту же клетку
                 {
-                    if (inventory[ChosenItem].Item != inventory[int.Parse(eSys.currentSelectedGameObject.name)].Item) // если выбраный предмет не такой же, как тот на который мы кликаем
+                    if (inventory[int.Parse(eSys.currentSelectedGameObject.name)].Item != null &&
+                        inventory[ChosenItem].Item.Title == inventory[int.Parse(eSys.currentSelectedGameObject.name)].Item.Title) // если выбраный предмет не такой же, как тот на который мы кликаем
                     {
-                        SwapItem(ChosenItem, int.Parse(eSys.currentSelectedGameObject.name));
+                        StackItem(ChosenItem, int.Parse(eSys.currentSelectedGameObject.name));
                     }
                     else
                     {
-                        StackItem(ChosenItem, int.Parse(eSys.currentSelectedGameObject.name));
+                        SwapItem(ChosenItem, int.Parse(eSys.currentSelectedGameObject.name));
                     }
                 }
                 StopDrag();
